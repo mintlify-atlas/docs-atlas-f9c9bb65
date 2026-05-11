@@ -1,0 +1,71 @@
+---
+title: "Live Skin Configuration and Skin Widget Manager Guide"
+description: "Edit your BMS skin settings and reposition skin elements on the fly without restarting the game, directly from the in-game mod menu."
+---
+
+The Skin Configuration window lets you change skin settings for any scene while the game is running, with no restart required. Open the mod menu with `F5` or `Insert`, then navigate to the **Skin** window to access it. The menu always reflects the currently displayed scene, so the skin you configure is the one actively rendered on screen.
+
+## Skin Configuration window
+
+<Steps>
+  <Step title="Open the mod menu">
+    Press `F5` or `Insert` while in the game to open the mod menu. The **Skin** window appears as a panel you can dock or float.
+  </Step>
+  <Step title="Navigate to the scene you want to configure">
+    The Skin window shows the skin for whichever scene is currently displayed. To configure a specific scene:
+
+    - **PLAY** — start a chart with the menu open
+    - **RESULT** — finish a chart (or let it reach the result screen)
+    - **DECIDE** — reach the decide screen before the song starts
+    - **MUSICSELECT** and other scenes — simply navigate to them
+
+    The window updates automatically when you switch scenes.
+  </Step>
+  <Step title="Select a skin">
+    Use the arrow buttons or the dropdown at the top of the Skin window to switch between all installed skins compatible with the current scene type. Skins are loaded from your `skin/` directory and support `.lr2skin`, `.luaskin`, and `.json` formats.
+  </Step>
+  <Step title="Adjust skin options">
+    The body of the window shows the custom options, file selectors, and offset sliders defined by the skin. Changes apply immediately when **Live Editing** is checked. If Live Editing is off, click **Save** to apply your changes.
+
+    To discard all customizations and return to skin defaults, click **Reset** and confirm the prompt.
+  </Step>
+  <Step title="Freeze timers for static scenes">
+    Scenes like DECIDE are driven by timers that advance the animation. Enable **Freeze timers** in the Skin window to pause all gameplay timers, letting you inspect and edit elements that would otherwise animate or disappear.
+
+    <Note>
+      It is possible to close the mod menu while timers are frozen. Timers remain paused until you re-open the menu and uncheck **Freeze timers**.
+    </Note>
+  </Step>
+</Steps>
+
+## Skin Widget Manager
+
+The Skin Widget Manager is a companion tool that lets you reposition and resize individual skin elements using your mouse, without editing skin files by hand.
+
+<Steps>
+  <Step title="Open the Skin Widget Manager">
+    In the mod menu, open the **Skin Widgets** window. It lists every skin object in the currently loaded skin, identified by name.
+  </Step>
+  <Step title="Locate the element you want to adjust">
+    Each row in the table represents one skin object. Elements that are currently drawing on screen appear in full text; those that are off-screen or invisible are grayed out. Expand a row to see its individual destinations (a single skin object can have multiple positioned destinations).
+  </Step>
+  <Step title="Edit an element">
+    Click **Edit** next to a destination to open a popup with `x`, `y`, `w`, and `h` fields. Enter values directly, or enable the **Move** checkbox to get a draggable overlay window that snaps to the element's current position. Drag the overlay to reposition; resize it using the resize grip in the corner. When you click away, the position is committed.
+  </Step>
+  <Step title="Undo changes">
+    Every edit is recorded in the change history. Click the **undo** button at the top of the Skin Widgets tab to step back through your changes one at a time. The **History** tab shows a full log of all alterations made in the current session.
+  </Step>
+  <Step title="Export changes">
+    Click **export** to copy a summary of all modified elements to your clipboard. The output lists each changed destination with its updated x, y, w, and h values, which you can use as a reference when editing your skin files permanently.
+  </Step>
+</Steps>
+
+## Known issues
+
+<Note>
+  The Skin Widget Manager behaves abnormally when editing elements that are rendered as sliders or scrollbars. Avoid using the widget manager to reposition these element types.
+</Note>
+
+<Note>
+  After switching music select skins using the Skin Configuration window, some song wheel elements from the previous skin may remain visible on screen until the game is restarted. After switching play skins, measure bars may also display incorrectly until you reload the skin.
+</Note>

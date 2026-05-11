@@ -1,0 +1,75 @@
+---
+title: "Navigating Music Select in LR2oraja Endless Dream"
+description: "How to browse and search your song library, use the context menu, sort your collection, and configure Music Select behaviour in Endless Dream."
+---
+
+Music Select is the screen where you browse your BMS library, choose a chart, and configure your play options before starting a song. This page covers how to move around the song wheel, use the search bar and sort options, and take advantage of Endless Dream-specific improvements to the selection experience.
+
+## Navigating the song wheel
+
+The song wheel displays your entire library as a scrollable list of bars. Use your configured input (keyboard, controller, or MIDI) to scroll up and down through songs and folders. Press your select/confirm key on a song to load it, or on a folder to open it.
+
+<Steps>
+  <Step title="Open a folder">
+    Highlight a directory or table folder in the wheel and press confirm. The wheel updates to show the folder's contents. The current folder path is displayed by your skin.
+  </Step>
+  <Step title="Close a folder">
+    Press **Escape** to close the current open folder and return to its parent. If you are already at the top level of the song wheel, pressing Escape exits the game.
+
+    <Note>
+      In previous versions of beatoraja, Escape always exited the game. Endless Dream changed this so Escape only exits when you are at the root level, making it much harder to accidentally close the game mid-session.
+    </Note>
+  </Step>
+  <Step title="Select a chart">
+    Highlight a song bar and press your confirm key. If the chart file exists locally it loads immediately. If it is not downloaded yet, the game will initiate an automatic download through the [Song Downloader](/features/song-downloader).
+  </Step>
+</Steps>
+
+## Search bar
+
+The search bar lets you filter the song wheel by title in real time. It is rendered by your skin — if your skin defines a search text region, the bar appears automatically. Type to filter; the wheel updates as you enter characters. Clear the field to restore the full list.
+
+## Sort options
+
+You can cycle through sort modes to reorder the song wheel. The available sort orders are controlled by the `BarSorter` presets built into the game (title, artist, level, clear type, etc.).
+
+In addition to the standard sorts, the **Song Manager** window in the [mod menu](/gameplay/mod-menu) adds a **Sort by last played** option. Enable it to push songs you have played least recently to the top of the wheel, making it easy to find charts you have not touched in a while. The sort is reset to your default when you uncheck the option.
+
+<Note>
+  Sort by least recently played is a Song Manager feature accessed through the mod menu (F5 or Insert), not a standard sort mode in the wheel itself.
+</Note>
+
+## Context menu
+
+The context menu provides quick access to additional actions for the currently highlighted song or top-level table folder.
+
+**To open the context menu:** press **key 3** or **key 5** while a song or table folder is highlighted. These keys previously triggered autoplay and practice mode directly; those functions have been moved inside the context menu.
+
+The context menu offers:
+
+| Action | Description |
+|---|---|
+| Autoplay | Plays the chart with CPU input, no score saved. |
+| Practice Mode | Enters play with practice settings enabled. |
+| LR2IR Leaderboard | Displays LR2 Internet Ranking scores for the selected chart (read-only). |
+| G-BATTLE | After selecting a leaderboard entry, starts the chart with your pacemaker set to challenge that score. Supports NONRAN, MIRROR, and RANDOM (7K only). |
+
+<Note>
+  G-BATTLE with the RANDOM option enabled will match the random seed used to obtain the selected leaderboard score.
+</Note>
+
+## Skipping the decide screen
+
+By default, after selecting a chart Endless Dream transitions through the DECIDE screen before entering play. If you find this transition unnecessary, you can skip it entirely. Enable the **Skip Decide Screen** option in the **Music Select** tab of the launcher. With this on, confirming a song takes you directly to the play screen.
+
+## Key reference
+
+| Key | Action |
+|---|---|
+| Confirm | Select song or open folder |
+| Escape | Close current folder (exit game at top level) |
+| 3 or 5 | Open context menu on highlighted song or table folder |
+| F5 / Insert | Open the [mod menu](/gameplay/mod-menu) |
+| F3 | Open the chart's folder in your file manager |
+| F4 | Toggle fullscreen |
+| Num 6 | Open launcher configuration |

@@ -1,0 +1,73 @@
+---
+title: "Endless Dream Launcher Settings: All Tabs Explained"
+description: "A guide to every tab in the Endless Dream launcher, the config files it writes, and how periodic auto-save keeps your settings safe."
+---
+
+When you launch LR2oraja Endless Dream, a JavaFX launcher window opens before the game starts. This launcher is where you configure almost every aspect of the client — from display mode and audio latency to input devices, difficulty tables, and third-party integrations like Discord and OBS. Changes you make in the launcher are written to two JSON files in your beatoraja directory: `config_sys.json` stores system-wide settings (display, audio, paths, tables, integrations), while each player's settings are stored in `config.json` inside their folder under `player/`. As of version 0.4.0, configuration is also saved periodically while the game is open, so settings are not lost if the client closes unexpectedly.
+
+The launcher is organized into tabs. Click a tab to switch to it, make your changes, then start the game. Not every tab needs to be touched on first run — the defaults are sensible for most players.
+
+<AccordionGroup>
+  <Accordion title="Music Select">
+    Controls how the song selection screen behaves. Options include scroll speed (both the initial `scrolldurationlow` and the repeated `scrolldurationhigh` values), analog scroll enable/disable and ticks-per-scroll, song preview mode (none, once, or loop), folder lamp display, maximum number of simultaneous search bars, and whether songs you do not own are shown in the list. You can also enable **Skip Decide Screen** to jump straight from song selection into gameplay, bypassing the intermediate decide screen entirely.
+  </Accordion>
+
+  <Accordion title="Audio">
+    Sets the audio driver (OpenAL or PortAudio), device buffer size, simultaneous source count, sample rate, and per-category volume sliders for system sounds, key sounds, and background notes. Also contains the **Normalize Volume** toggle that automatically adjusts per-chart loudness using loudness analysis, and options for looping result and course result sounds. See the dedicated [Audio Configuration](/configuration/audio) page for full details.
+  </Accordion>
+
+  <Accordion title="Input">
+    Configures keyboard input duration and controller/USB input for each play mode (7K, 14K, 5K, and so on). The controller table lets you name devices, mark them as JKOC, enable analog scratch, and set the analog scratch threshold per device. Mouse scratch emulation is also configured here. See the dedicated [Input Configuration](/configuration/input) page for full details.
+  </Accordion>
+
+  <Accordion title="Video">
+    Controls display mode (Windowed, Fullscreen, or Borderless), resolution, monitor selection for fullscreen and borderless modes, vertical sync, maximum FPS cap, BGA (background animation) on/off/auto, and BGA scaling mode (full stretch, keep aspect ratio, or off). Miss layer display duration is also set here.
+  </Accordion>
+
+  <Accordion title="Play">
+    Stores play-side options such as hi-speed, duration, CONSTANT mode, lane cover amount and margins, lift, hidden, hi-speed fix mode (off, start BPM, max BPM, main BPM, or min BPM), and auto-adjust behavior. Settings are saved per play mode so that 7K and 14K configurations remain independent.
+  </Accordion>
+
+  <Accordion title="Resource">
+    Manages BMS song root directories and difficulty table URLs. You can add BMS folders by clicking the folder picker or by dragging and dropping directories onto the list. The table URL panel shows your active tables alongside an **Available Tables** list — a built-in curated set of popular community tables you can add with a single click. See the dedicated [Difficulty Tables](/configuration/tables) page for full details.
+  </Accordion>
+
+  <Accordion title="Skin">
+    Selects the skin used for music select, gameplay, result, and other screens. Skin paths are stored in the player `config.json`. After changing skins the launcher must restart the game for the new skin to take full effect.
+  </Accordion>
+
+  <Accordion title="IR (Internet Ranking)">
+    Sets up the Internet Ranking service used for submitting scores and viewing rankings. Supports beatoraja IR and LR2IR (read-only leaderboards). The number of retry attempts for failed score submissions can also be configured here.
+  </Accordion>
+
+  <Accordion title="Discord">
+    Enables Discord Rich Presence to show your current activity in Discord. Also configures Discord webhook integration: you can set a webhook URL, display name, avatar image URL, and choose between image-only or rich-embed post format. Scores are sent automatically after each completed chart when webhooks are enabled.
+  </Accordion>
+
+  <Accordion title="OBS">
+    Controls the OBS WebSocket integration introduced in 0.4.0. Enable the integration and provide the WebSocket host, port (default `4455`), and password. You can then map game states (music select, gameplay, result screen, and so on) to OBS scene names, and choose a recording mode that tells Endless Dream when to start and stop OBS recordings automatically.
+  </Accordion>
+</AccordionGroup>
+
+## Config file reference
+
+| File | Location | Contents |
+|---|---|---|
+| `config_sys.json` | Beatoraja root directory | Display, audio, paths, table URLs, integrations (Discord, OBS) |
+| `config.json` | `player/<playername>/` | Per-player settings: skins, play config, IR, input |
+
+<Note>
+  Endless Dream saves configuration periodically while the game is running. You do not need to close the launcher or restart the game to persist most setting changes. However, some settings (such as skin selection) require a game restart to take effect.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Audio Configuration" icon="volume-high" href="/configuration/audio">
+    Buffer size, audio driver, volume normalization, and sample rate settings.
+  </Card>
+  <Card title="Input Configuration" icon="gamepad-2" href="/configuration/input">
+    Keyboard, controller, and analog scratch setup.
+  </Card>
+  <Card title="Difficulty Tables" icon="table" href="/configuration/tables">
+    Adding and reloading community difficulty tables.
+  </Card>
+</CardGroup>

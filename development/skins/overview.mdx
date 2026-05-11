@@ -1,0 +1,93 @@
+---
+title: "Skin System Overview: Formats, Scenes, and Installation"
+description: "How skins work in LR2oraja Endless Dream: supported formats, installation, scene types, live configuration, and known Linux issues."
+---
+
+Skins in LR2oraja Endless Dream control the visual presentation of every screen in the game. The skin system is inherited from beatoraja and extended by Endless Dream with live configuration support and performance improvements. Each skin is a collection of image assets, fonts, and a descriptor file that tells the engine how to lay out and animate every element for a given game scene.
+
+## Supported skin formats
+
+Endless Dream supports three skin descriptor formats, dispatched by file extension in `SkinLoader.java`:
+
+| Format | Extension | Description |
+|---|---|---|
+| LR2 CSV | `.csv` | Classic LR2 skin format; broadly compatible with existing LR2 skin collections |
+| JSON | `.json` | beatoraja-native JSON skin format |
+| Lua | `.luaskin` | JSON-compatible skin enhanced with Lua scripting (see [Lua Scripting](/development/skins/lua-scripting)) |
+
+The loader selects the correct parser based on the file extension. If the configured skin path cannot be loaded, the engine falls back to the built-in default skin for that scene type.
+
+## Installing a skin
+
+<Steps>
+  <Step title="Obtain a skin">
+    Download a skin archive compatible with beatoraja 0.8.8. LR2 skins (.csv), JSON skins (.json), and Lua skins (.luaskin) are all supported.
+  </Step>
+  <Step title="Place the skin files">
+    Extract the skin folder into the `skin/` directory inside your Endless Dream installation. The folder structure expected by the skin (images, fonts, sub-files) must be preserved.
+  </Step>
+  <Step title="Select the skin in the launcher">
+    Open the launcher and navigate to the **Skin** tab. For each scene type, use the file picker to select the skin's descriptor file (`.csv`, `.json`, or `.luaskin`).
+  </Step>
+  <Step title="Apply and launch">
+    Save your settings and start the game. The new skin loads when you enter the relevant scene.
+  </Step>
+</Steps>
+
+## Skin scenes
+
+Each skin is associated with exactly one scene type, identified by the `SkinType` enum. The full list of scene types is:
+
+<AccordionGroup>
+  <Accordion title="Play scenes">
+    Play skins render the playfield during a chart. A separate skin can be configured for each key mode:
+
+    | Scene type | Key mode |
+    |---|---|
+    | `PLAY_7KEYS` | 7-key BMS / BME |
+    | `PLAY_5KEYS` | 5-key BMS |
+    | `PLAY_14KEYS` | 14-key double play |
+    | `PLAY_10KEYS` | 10-key double play |
+    | `PLAY_9KEYS` | 9-key pop'n |
+    | `PLAY_24KEYS` | 24-key keyboard |
+    | `PLAY_24KEYS_DOUBLE` | 24-key double |
+    | `PLAY_7KEYS_BATTLE` | 7-key battle |
+    | `PLAY_5KEYS_BATTLE` | 5-key battle |
+    | `PLAY_9KEYS_BATTLE` | 9-key battle |
+    | `PLAY_24KEYS_BATTLE` | 24-key battle |
+  </Accordion>
+  <Accordion title="Non-play scenes">
+    | Scene type | Description |
+    |---|---|
+    | `MUSIC_SELECT` | Song selection screen |
+    | `DECIDE` | Brief transition after selecting a song |
+    | `RESULT` | Post-chart results screen |
+    | `COURSE_RESULT` | Post-course results screen |
+    | `KEY_CONFIG` | Key configuration screen |
+    | `SKIN_SELECT` | Skin selection screen |
+    | `SOUND_SET` | Sound settings screen |
+    | `THEME` | Theme/UI overlay |
+  </Accordion>
+</AccordionGroup>
+
+## Live skin configuration
+
+As of Endless Dream 0.4.0, you can reconfigure skins without restarting the game. The **Skin Configuration** window in the mod menu (open with `F5` or `Insert`) lets you adjust the active scene's skin properties in real time.
+
+- To edit the PLAY scene skin, open the mod menu and start playing a chart.
+- To edit the DECIDE scene skin, freeze gameplay timers from within the mod menu before the scene transitions away.
+- The **Skin Widget Manager** lets you resize and reposition skin elements with the mouse, with full undo history.
+
+For more detail, see [Skin Configuration](/features/skin-configuration).
+
+## Bitmap font loading optimization
+
+Skins that use large bitmap font sheets load noticeably faster as of version 0.4.0. The engine now batches font texture loading through `BitmapFontBatchLoader`, which reduces the number of individual texture uploads during scene initialization.
+
+<Note>
+**Linux: skin font case sensitivity**
+
+On Linux, font filenames are case-sensitive. Some skins include font files whose names do not exactly match the case used in the skin descriptor. When this happens, the font loads only partially or not at all — you may see missing characters or blank number displays.
+
+**Workaround:** Rename the offending font files in your skin folder so their names exactly match the case used in the skin's descriptor file (`.csv` or `.json`). For example, if the descriptor references `font/Score.png` but the file on disk is `font/score.png`, rename it to `font/Score.png`.
+</Note>

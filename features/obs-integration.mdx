@@ -1,0 +1,64 @@
+---
+title: "OBS WebSocket Integration: Automate Scene Switching"
+description: "Automate OBS scene switching and recording from the Endless Dream launcher, with per-game-state scene assignments and configurable recording save rules."
+---
+
+Endless Dream can connect to OBS Studio over the OBS WebSocket protocol and automatically switch scenes and control recording as you move between game states. Scene assignments are configured per game state in the launcher, so the correct OBS scene loads whenever you enter music select, start a song, reach the result screen, and so on.
+
+<Note>
+  This feature requires the OBS WebSocket plugin. OBS Studio 28 and later ships with the WebSocket server built in (protocol version 5). If you are running an older version of OBS, install the [obs-websocket plugin](https://github.com/obsproject/obs-websocket) separately.
+</Note>
+
+## Setup
+
+<Steps>
+  <Step title="Enable the OBS WebSocket server in OBS">
+    In OBS, go to **Tools → WebSocket Server Settings**. Enable the server and note the port (default `4455`) and password if authentication is enabled.
+  </Step>
+  <Step title="Open the OBS tab in the launcher">
+    Launch Endless Dream (or open the launcher). Select the **OBS** tab.
+  </Step>
+  <Step title="Enable the integration and enter connection details">
+    Check **Enable OBS WebSocket integration**. Enter the host (typically `localhost`), port, and password to match your OBS WebSocket server settings.
+  </Step>
+  <Step title="Connect to OBS and load your scenes">
+    Click **Connect**. The launcher connects to OBS, displays the detected OBS and WebSocket versions, and populates the scene dropdowns with the names of your OBS scenes. If authentication fails, the label will indicate the failure so you can correct your password.
+  </Step>
+  <Step title="Assign scenes and actions to game states">
+    The OBS tab shows a row for each game state:
+
+    | Game state | Description |
+    |---|---|
+    | `MUSICSELECT` | Music select screen |
+    | `PLAY` | Song gameplay |
+    | `PLAY_ENDED` | Immediately after gameplay ends, before the result screen |
+    | `RESULT` | Music result screen |
+    | `DECIDE` | Decide screen |
+    | `COURSESELECT` | Course select screen |
+    | `COURSERESULT` | Course result screen |
+
+    For each state, choose an OBS scene from the dropdown (or leave it as **(No Change)**) and an optional action — **Start Recording** or **Stop Recording** — from the action dropdown (or leave it as **(Do Nothing)**).
+
+    Scene switches happen immediately when the game transitions to that state. Recording actions trigger at the same time as the scene switch.
+  </Step>
+  <Step title="Configure recording save behavior">
+    Use the **Recording mode** dropdown to control which recordings are kept:
+
+    - **Always keep recordings** — every recording is saved, regardless of what you do in-game.
+    - **Keep on screenshot** — a recording is only kept if you take a screenshot during that session. Recordings without a screenshot are deleted when the next recording starts.
+    - **Keep on replay save** — a recording is only kept if a replay is auto-saved during the session.
+
+    The **Stop recording delay** spinner sets how many milliseconds to wait after a state transition before sending the stop recording command. Increase this if OBS cuts off the end of your recordings.
+  </Step>
+  <Step title="Save settings">
+    Click **Save** in the launcher. The integration is active as soon as the game starts. The game reconnects automatically if the OBS WebSocket connection drops, with exponential backoff between attempts.
+  </Step>
+</Steps>
+
+## How recording save modes work
+
+When the recording mode is set to **Keep on screenshot** or **Keep on replay save**, the game manages recording in a stop-and-restart loop across game states. At each state transition where a stop action is configured, the recording stops. If the save condition was met during that segment (screenshot taken or replay auto-saved), the file is kept. If not, the file is deleted when the next recording starts. An in-game notification confirms whether the last recording was saved or discarded.
+
+<Note>
+  The **Always keep recordings** mode records continuously and never deletes any files. Use one of the conditional modes only if you specifically want to filter your recordings by screenshot or replay activity.
+</Note>

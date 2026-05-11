@@ -1,0 +1,82 @@
+---
+title: "Frequently Asked Questions About LR2oraja Endless Dream"
+description: "Answers to common questions about LR2oraja Endless Dream: Java requirements, compatibility, osu! songs, BMS, LR2 skins, bug reporting, and differences from upstream beatoraja."
+---
+
+Answers to the most common questions about LR2oraja Endless Dream.
+
+<AccordionGroup>
+
+  <Accordion title="What Java version do I need?">
+    Endless Dream requires **Java 17 with JavaFX** (this requirement was introduced in version 0.3.0; earlier versions used Java 8).
+
+    The recommended distribution is [Liberica Full JDK 17](https://bell-sw.com/pages/downloads/#jdk-17-lts) from BellSoft. When downloading, make sure to select **Package: Full JDK** — the standard JDK package does not include JavaFX and will not work.
+
+    The JRE bundled inside the `beatoraja-0.8.8 JRE` download does **not** include JavaFX and cannot run Endless Dream. You must install the Liberica Full JDK 17 separately.
+  </Accordion>
+
+  <Accordion title="Is this compatible with my existing beatoraja install?">
+    Yes. Endless Dream is designed as a drop-in replacement for beatoraja 0.8.8. It reads the same `config.json`, `config_player.json`, song database, skin folders, IR plugins, and score data as an unmodified beatoraja 0.8.8 installation.
+
+    The recommended approach for existing users is to make a copy of your beatoraja directory and replace `beatoraja.jar` with the Endless Dream jar, so your original install stays intact. Both installations share the same song library and score data if you point them at the same folders.
+  </Accordion>
+
+  <Accordion title="Does it work with osu! songs?">
+    Yes. As of version 0.3.0, Endless Dream supports `.osu` chart files natively. To use your osu! songs:
+
+    1. Open the launcher and go to the **BMS Path** section.
+    2. Add your osu! songs folder (the folder containing your osu! beatmaps) as you would add any BMS folder.
+    3. Reload your library.
+
+    Only BMS-compatible key modes are supported (5K, 7K, etc.). Osu!-specific game modes (osu! standard, taiko, catch, mania) are not applicable — only the chart data that maps to BMS lane layouts will load.
+  </Accordion>
+
+  <Accordion title="How do I get BMS songs?">
+    BMS (Be-Music Source) songs are distributed by their authors through various community channels. The [Beatoraja English Guide](https://github.com/wcko87/beatoraja-english-guide/wiki) maintained by wcko87 is the best starting point. It covers:
+
+    - Where to find BMS packs and individual charts
+    - How to configure your BMS path in beatoraja / Endless Dream
+    - How to use difficulty tables to find songs at your level
+    - A list of popular skins
+
+    You can also ask in the [Endless Dream Discord server](https://discord.gg/HutCHCZHns) for recommendations.
+  </Accordion>
+
+  <Accordion title="What's the difference from upstream beatoraja?">
+    Endless Dream builds on [LR2oraja](https://github.com/wcko87/lr2oraja) (which adds LR2-style judges and gauges) and then adds further quality-of-life features and fixes on top. The main differences from upstream beatoraja 0.8.8 are:
+
+    - **In-game song downloader** — download charts directly from within the game
+    - **Mod menu** (`F5` / `Insert`) — rate modifiers, random trainer, lane controls, misc settings, and more, all accessible in-game without a restart
+    - **Live skin configuration** — adjust skin properties and layout in real time
+    - **LR2 judges and gauges** — inherited from LR2oraja; closer to classic LR2 behavior
+    - **LR2IR support** — read-only LR2IR leaderboards and ghost battle from within the game
+    - **LR2 G-BATTLE support** — challenge LR2IR scores in ghost battle mode
+    - **osu! file support** — play `.osu` charts alongside BMS
+    - **In-game leaderboards** — beatoraja IR and LR2IR leaderboards accessible without leaving the game
+    - **Discord webhook integration** — send screenshots to Discord automatically
+    - **OBS WebSocket integration** — automate scene switching and recording from within the game
+    - **Performance improvements** — updated to libGDX 1.12.1 and lwjgl3, faster library scanning, faster bitmap font loading
+    - **Active Linux support** — fixes for Linux-specific crashes and usability issues
+  </Accordion>
+
+  <Accordion title="How do I report a bug?">
+    The preferred way to report a bug is to open an issue on the [GitHub repository](https://github.com/seraxis/lr2oraja-endlessdream/issues). Before filing, check whether the issue is already listed in [Known Issues](/reference/known-issues) or has an existing open issue.
+
+    When reporting, include:
+    - Your operating system and version
+    - Your Java version (`java -version` in a terminal)
+    - Steps to reproduce the issue
+    - The contents of `endlessdream.log` from your installation directory (if applicable)
+
+    You can also ask for help or discuss potential bugs in the [Discord server](https://discord.gg/HutCHCZHns). The Discord is where most day-to-day discussion and coordination happens.
+  </Accordion>
+
+  <Accordion title="Can I use LR2 skins?">
+    Yes. Support for LR2-format skins (`.csv` descriptor files) is inherited from LR2oraja and is fully supported in Endless Dream. The skin loader reads LR2 CSV files through `LR2SkinLoader` and `LR2SkinCSVLoader`, and all standard LR2 skin scene types (PLAY 7KEYS, MUSIC SELECT, DECIDE, RESULT, and others) are supported.
+
+    To use an LR2 skin, extract the skin folder into the `skin/` directory in your Endless Dream installation and then select the `.csv` file in the launcher's Skin tab for the appropriate scene.
+
+    Note that LR2 skins authored for very old versions of LR2 may reference options or timers that map to different IDs in beatoraja. If a skin looks incorrect, check whether the skin has a known beatoraja-compatible version.
+  </Accordion>
+
+</AccordionGroup>

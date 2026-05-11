@@ -1,0 +1,198 @@
+---
+title: "Skin Properties Reference: Options, Timers, and Numbers"
+description: "Reference for beatoraja skin properties in Endless Dream: property types, IDs, how to configure them in the launcher, and changes introduced in beatoraja 0.8.8."
+---
+
+Skin properties are the numeric identifiers that connect skin elements to live game state. When a skin object references a property ID, the engine looks up the corresponding value each frame and uses it to control visibility, animation, text display, slider position, or image selection. Properties are defined in `SkinProperty.java` and implemented across the `property/` package.
+
+## Configuring properties in the launcher
+
+The **Skin** tab in the launcher lists a **Skin Configuration** section for each scene type. The options shown are declared by the skin itself — typically in the skin's header section — and may include dropdown menus (custom options), file selectors (custom files), and position/size sliders (custom offsets). Changes are saved to `config.json` and `config_player.json` in your player folder.
+
+As of Endless Dream 0.4.0, you can also adjust these settings without restarting the game using the **Skin Configuration** window in the mod menu (`F5` / `Insert`). See [Live skin configuration](/development/skins/overview#live-skin-configuration) for details.
+
+<Warning>
+As of beatoraja 0.8.8 (which Endless Dream 0.3.0 is based on), some skin property IDs changed from their values in earlier releases. If you are migrating a skin from a pre-0.8.8 beatoraja installation, verify that option and timer IDs in your skin still match the constants in `SkinProperty.java`.
+</Warning>
+
+## Property categories
+
+<AccordionGroup>
+  <Accordion title="Boolean properties (OPTION_*)">
+    Boolean properties control element visibility and conditional rendering. A skin object with a positive `OPTION_*` ID is visible when the condition is true; a negative ID inverts the condition.
+
+    Common categories:
+
+    | ID range | Category |
+    |---|---|
+    | `1`–`5` | Song bar type (folder, song, grade, playable) |
+    | `21`–`23` | Music select panel state (PANEL1–3) |
+    | `30`–`39` | BGA and autoplay state |
+    | `40`–`51` | BGA visibility, gauge type, IR connection |
+    | `60`–`66` | Score saving state |
+    | `70`–`79` | Chart difficulty level |
+    | `80`–`84` | Loading state and replay mode |
+    | `90`–`91` | Result clear / fail |
+    | `100`–`105` | Music select bar clear rank |
+    | `118`–`131` | Clear type trophies (Easy, Hard, Full Combo, etc.) |
+    | `150`–`155` | Chart difficulty tier (BEGINNER–INSANE) |
+    | `160`–`164` | Chart key mode (5K, 7K, 9K, 10K, 14K) |
+    | `170`–`179` | Chart metadata flags (BGA, LN, BPM change, etc.) |
+    | `180`–`184` | Chart judge rank (VERY HARD – VERY EASY) |
+    | `190`–`198` | Stage file, banner, back BMP presence; replay data |
+    | `200`–`227` | Score rank (AAA–F) for 1P, 2P, and best/now/result contexts |
+    | `230`–`240` | Gauge percentage bands (0–10 %, 10–20 %, … 100 %) |
+    | `241`–`246` | Current judge type (PERFECT / GREAT / GOOD / BAD / POOR / MISS) |
+    | `270`–`273` | Lane cover / lift / hidden state |
+    | `280`–`293` | Course stage index and mode |
+    | `300`–`318` | Result rank for 1P and 2P |
+    | `320`–`327` | Best-score rank for 1P |
+    | `330`–`336` | Score update / draw state on result screen |
+    | `340`–`347` | Current rank (AAA–F) during gameplay |
+    | `350`–`354` | Result flip, 1P/2P win, draw |
+    | `400` | CONSTANT scroll mode active |
+    | `601`–`625` | IR connection and ranking state |
+    | `1080` | Practice mode active |
+    | `1100`–`1104` | Extended bar clear ranks (Assist Easy, ExHard, Perfect, Max) |
+    | `1240` | Gauge at border or above |
+
+    Example usage in a JSON skin:
+
+    ```json
+    { "draw": 91, "..." : "..." }
+    ```
+
+    This element is only drawn when `OPTION_RESULT_FAIL` (id 91) is true — i.e., the player failed.
+  </Accordion>
+
+  <Accordion title="Timer properties (TIMER_*)">
+    Timer properties drive time-based animations. A timer value is a microsecond timestamp representing when the timer turned on, or `Long.MIN_VALUE` when off. Skin destinations reference a timer to anchor their keyframe timeline.
+
+    Key timers:
+
+    | Constant | ID | Description |
+    |---|---|---|
+    | `TIMER_STARTINPUT` | 1 | Scene accepts input |
+    | `TIMER_FADEOUT` | 2 | Scene fade-out begins |
+    | `TIMER_FAILED` | 3 | Player failed |
+    | `TIMER_PLAY` | 41 | Chart playback starts |
+    | `TIMER_JUDGE_1P` | 46 | 1P judge event |
+    | `TIMER_COMBO_1P` | 446 | 1P combo update |
+    | `TIMER_FULLCOMBO_1P` | 48 | 1P full combo achieved |
+    | `TIMER_RHYTHM` | 140 | Beat-synced rhythm timer |
+    | `TIMER_RESULTGRAPH_BEGIN` | 150 | Result graph animation starts |
+    | `TIMER_IR_CONNECT_SUCCESS` | 173 | IR connection succeeded |
+    | `TIMER_MUSIC_END` | 908 | Chart audio ends |
+    | `TIMER_CUSTOM_BEGIN`–`TIMER_CUSTOM_END` | 10000–19999 | Skin-defined custom timers |
+
+    Bomb, hold, key-on, and key-off timers exist for all key slots (scratch + keys 1–9 for both 1P and 2P), with extended ranges (IDs 1010–2110) covering up to 99 keys.
+  </Accordion>
+
+  <Accordion title="Number properties (NUMBER_*)">
+    Integer number properties supply values to numeric display elements (`SkinNumber`, `SkinTextBitmap`).
+
+    | Category | Examples |
+    |---|---|
+    | Hi-speed / lane | `NUMBER_HISPEED_LR2` (10), `NUMBER_LANECOVER1` (14) |
+    | BPM | `NUMBER_NOWBPM` (160), `NUMBER_MAINBPM` (92), `NUMBER_MINBPM` (91), `NUMBER_MAXBPM` (90) |
+    | Score | `NUMBER_SCORE` (71), `NUMBER_COMBO` (104), `NUMBER_MAXCOMBO` (75) |
+    | Judge counts | `NUMBER_PERFECT` (110), `NUMBER_GREAT` (111), `NUMBER_GOOD` (112), `NUMBER_BAD` (113), `NUMBER_POOR` (114) |
+    | Early/late split | `NUMBER_EARLY_PERFECT` (410), `NUMBER_LATE_PERFECT` (411), and equivalents for GREAT, GOOD, BAD, POOR, MISS |
+    | Chart metadata | `NUMBER_TOTALNOTES` (74), `NUMBER_PLAYLEVEL` (96) |
+    | Time | `NUMBER_PLAYTIME_MINUTE` (161), `NUMBER_TIMELEFT_SECOND` (164) |
+    | IR | `NUMBER_IR_RANK` (179), `NUMBER_IR_TOTALPLAYER` (180), `NUMBER_IR_CLEARRATE` (181) |
+    | Random | `NUMBER_RANDOM_1P_1KEY`–`NUMBER_RANDOM_1P_SCR` (450–459) |
+    | Density | `NUMBER_DENSITY_PEAK` (360), `NUMBER_DENSITY_AVERAGE` (364) |
+  </Accordion>
+
+  <Accordion title="Float / rate properties (RATE_* / FLOAT_*)">
+    Float properties return a value in the range 0.0–1.0 and are used by bar graphs, sliders, and custom Lua scripts.
+
+    | Constant | ID | Description |
+    |---|---|---|
+    | `RATE_SCORE` | 110 | Current score rate |
+    | `RATE_SCORE_FINAL` | 111 | Final score rate (result screen) |
+    | `RATE_BESTSCORE_NOW` | 112 | Best score rate up to current note |
+    | `RATE_PGREAT`–`RATE_POOR` | 140–144 | Per-judge-type rate |
+    | `FLOAT_SCORE_RATE` | 1102 | Score rate (alternative alias) |
+    | `FLOAT_GROOVEGAUGE_1P` | 1107 | Groove gauge value |
+    | `FLOAT_HISPEED` | 310 | Hi-speed as a float |
+    | `FLOAT_CHART_PEAKDENSITY` | 360 | Chart peak note density |
+    | `RATE_MASTERVOLUME` | 17 | Master volume slider position |
+    | `RATE_KEYVOLUME` | 18 | Key sound volume slider position |
+    | `RATE_BGMVOLUME` | 19 | BGM volume slider position |
+    | `RATE_LANECOVER` | 4 | Lane cover position |
+    | `RATE_MUSIC_PROGRESS` | 6 | Music progress (0–1) |
+  </Accordion>
+
+  <Accordion title="String properties (STRING_*)">
+    String properties supply text to `SkinText` and `SkinTextBitmap` elements.
+
+    | Constant | ID | Description |
+    |---|---|---|
+    | `STRING_TITLE` | 10 | Chart title |
+    | `STRING_SUBTITLE` | 11 | Chart subtitle |
+    | `STRING_FULLTITLE` | 12 | Full title (title + subtitle) |
+    | `STRING_GENRE` | 13 | Chart genre |
+    | `STRING_ARTIST` | 14 | Chart artist |
+    | `STRING_SUBARTIST` | 15 | Chart sub-artist |
+    | `STRING_PLAYER` | 2 | Player name |
+    | `STRING_RIVAL` | 1 | Rival player name |
+    | `STRING_SKIN_NAME` | 50 | Active skin name |
+    | `STRING_SKIN_AUTHOR` | 51 | Skin author |
+    | `STRING_SKIN_CUSTOMIZE_CATEGORY1`–`10` | 100–109 | Skin custom option category labels |
+    | `STRING_SKIN_CUSTOMIZE_ITEM1`–`10` | 110–119 | Skin custom option selected item labels |
+    | `STRING_TABLE_NAME` | 1001 | Current difficulty table name |
+    | `STRING_TABLE_LEVEL` | 1002 | Current difficulty table level |
+    | `STRING_IR_NAME` | 1020 | IR server name |
+    | `STRING_IR_USER_NAME` | 1021 | IR user name |
+    | `STRING_SONG_HASH_MD5` | 1030 | Chart MD5 hash |
+    | `STRING_SONG_HASH_SHA256` | 1031 | Chart SHA-256 hash |
+    | `STRING_VERSION` | 1010 | Game version string |
+  </Accordion>
+
+  <Accordion title="Slider and offset properties">
+    Sliders are writable float properties used for interactive controls. Offsets define position adjustments for skin element groups.
+
+    **Sliders:**
+
+    | Constant | ID | Description |
+    |---|---|---|
+    | `SLIDER_MUSICSELECT_POSITION` | 1 | Song wheel scroll position |
+    | `SLIDER_MUSIC_PROGRESS` | 6 | Music progress (read-only slider) |
+    | `SLIDER_MASTER_VOLUME` | 17 | Master volume control |
+    | `SLIDER_KEY_VOLUME` | 18 | Key sound volume control |
+    | `SLIDER_BGM_VOLUME` | 19 | BGM volume control |
+    | `SLIDER_LANECOVER` | 4 | Lane cover position |
+    | `SLIDER_LANECOVER2` | 5 | Second lane cover (DP) |
+
+    **Built-in offsets:**
+
+    | Constant | ID | Description |
+    |---|---|---|
+    | `OFFSET_ALL` | 10 | Global element offset (play scenes only) |
+    | `OFFSET_SCRATCHANGLE_1P` | 1 | 1P scratch turntable angle |
+    | `OFFSET_SCRATCHANGLE_2P` | 2 | 2P scratch turntable angle |
+    | `OFFSET_LIFT` | 3 | Lift offset |
+    | `OFFSET_LANECOVER` | 4 | Lane cover offset |
+    | `OFFSET_NOTES_1P` | 30 | 1P note area offset |
+    | `OFFSET_JUDGE_1P` | 32 | 1P judge display offset |
+
+    User-defined custom offsets use IDs 40 and above (up to `OFFSET_MAX` = 199).
+  </Accordion>
+
+  <Accordion title="Button / event properties (BUTTON_*)">
+    Button properties represent interactive actions. In skins they are used as event targets and for reading the current state of multi-state buttons (e.g., gauge type, random option).
+
+    | Category | Examples |
+    |---|---|
+    | Navigation | `BUTTON_PLAY` (15), `BUTTON_KEYCONFIG` (13), `BUTTON_SKINSELECT` (14) |
+    | Gauge | `BUTTON_GAUGE_1P` (40), `BUTTON_GAUGE_2P` (41) |
+    | Random | `BUTTON_RANDOM_1P` (42), `BUTTON_RANDOM_2P` (43) |
+    | Display | `BUTTON_BGA` (72), `BUTTON_HSFIX` (55) |
+    | Skin customize | `BUTTON_SKIN_CUSTOMIZE1`–`10` (220–229) |
+    | Lane cover | `BUTTON_LANECOVER` (330), `BUTTON_LIFT` (331), `BUTTON_HIDDEN` (332) |
+    | Skin select shortcuts | `BUTTON_SKINSELECT_7KEY` (170) through all scene types |
+    | Custom events | `EVENT_CUSTOM_BEGIN`–`EVENT_CUSTOM_END` (1000–1999) |
+  </Accordion>
+</AccordionGroup>

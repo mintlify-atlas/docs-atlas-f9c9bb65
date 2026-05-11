@@ -1,0 +1,77 @@
+{
+  "projectType": "general",
+  "projectName": "LR2oraja Endless Dream",
+  "projectDescription": "A featureful community fork of the beatoraja BMS rhythm game client, adding quality-of-life patches, in-game mod menus, LR2IR support, and an in-game song downloader.",
+  "theme": "palm",
+  "primaryColor": "#848c8e",
+  "lightColor": "#11161e",
+  "darkColor": "#cfd0d2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Getting Started",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": ["introduction", "getting-started/installation", "getting-started/first-run"]
+          },
+          {
+            "group": "Gameplay",
+            "pages": ["gameplay/mod-menu", "gameplay/song-select", "gameplay/scoring-and-gauges"]
+          },
+          {
+            "group": "Features",
+            "pages": ["features/song-downloader", "features/lr2ir-leaderboards", "features/random-trainer", "features/skin-configuration", "features/discord-webhooks", "features/obs-integration"]
+          },
+          {
+            "group": "Configuration",
+            "pages": ["configuration/launcher-settings", "configuration/audio", "configuration/input", "configuration/tables"]
+          }
+        ]
+      },
+      {
+        "tab": "Development",
+        "groups": [
+          {
+            "group": "Contributing",
+            "pages": ["development/building", "development/running", "development/contributing"]
+          },
+          {
+            "group": "Skinning",
+            "pages": ["development/skins/overview", "development/skins/lua-scripting", "development/skins/properties"]
+          },
+          {
+            "group": "Reference",
+            "pages": ["reference/changelog", "reference/known-issues", "reference/faq"]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "In-game song downloader with progress tracking and retry support",
+    "LR2IR leaderboards and ghost battle support",
+    "Built-in mod menu (F5/Insert) with Random Trainer and rate modifiers",
+    "Live skin configuration and Skin Widget Manager",
+    "OBS WebSocket integration for automated scene switching and recording",
+    "Discord webhook support for screenshot sharing and score posting",
+    "Automatic per-chart volume normalization",
+    "Osu file format support alongside BMS/BMSON",
+    "Improved graphics performance via libGDX 1.13 and lwjgl3 backend",
+    "Difficulty table management UI with built-in popular table list"
+  ],
+  "publicApiSurface": [
+    "Mod Menu (F5 / Insert key)",
+    "Context Menu (keys 3 and 5 in music select)",
+    "Random Trainer with lane shifting and mirroring",
+    "Rate/Freq modifier (on-the-fly chart speed changes)",
+    "Song Downloader menu",
+    "LR2IR Leaderboard viewer",
+    "Skin Configuration window",
+    "Skin Widget Manager",
+    "OBS WebSocket scene switcher",
+    "Discord webhook configuration",
+    "Difficulty table management UI",
+    "random/default.json filter configuration"
+  ]
+}

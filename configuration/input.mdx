@@ -1,0 +1,81 @@
+---
+title: "Configure Keyboard and Controller Input in Endless Dream"
+description: "Set up keyboard and USB controller input in Endless Dream, including analog scratch thresholds, JKOC mode, and mouse scratch emulation."
+---
+
+Endless Dream supports keyboard input and USB controllers simultaneously, with separate configuration for each play mode (7K, 14K, 5K, 9K, and so on). Input settings are found in the **Input** tab of the launcher and are stored in the player `config.json` file under `player/<playername>/`. Each play mode keeps its own independent input configuration.
+
+## Opening input settings
+
+Open the launcher, click the **Input** tab, and select the play mode you want to configure from the **Input Mode** dropdown. The displayed controller table and keyboard settings update immediately when you change the mode.
+
+## Keyboard input
+
+<Steps>
+  <Step title="Select your play mode">
+    Use the **Input Mode** dropdown at the top of the Input tab to choose the mode you want to configure (for example, **BEAT\_7K** for standard 7-key play).
+  </Step>
+  <Step title="Set key input duration">
+    The **Input Duration** spinner controls the minimum time in milliseconds that a key must be held before it registers as a long note (LN) hold. Adjust this if short taps are being misread as LN inputs or vice versa.
+  </Step>
+  <Step title="Assign keys in-game">
+    Key bindings are assigned from within the game's key configuration screen, not from the launcher. Launch the game, navigate to the key configuration option in the launcher or in-game menu, and press each key for each lane.
+  </Step>
+</Steps>
+
+### Mouse scratch emulation
+
+The Input tab includes a **Mouse Scratch** section that lets you use mouse movement as a turntable/scratch input:
+
+| Setting | Description |
+|---|---|
+| **Enable mouse scratch** | Toggle mouse scratch on or off for the selected mode |
+| **Time threshold** | How long (in ms) mouse movement must occur before it counts as a scratch |
+| **Distance** | Minimum cursor distance in pixels to trigger a scratch input |
+| **Mode** | **Ver. 2 (Newest)** or **Ver. 1 (~0.8.3)** — controls the internal scratch detection algorithm |
+
+## Controller / USB input
+
+The controller table in the Input tab lists all detected input devices. Each row represents one controller and exposes the following settings:
+
+| Column | Description |
+|---|---|
+| **Play side** | 1P or 2P — position in the list determines which player this device controls |
+| **Name** | Display name of the device; editable if needed |
+| **JKOC** | Enable JKOC (Joystick Keyboard Overlay Controller) compatibility mode for this device |
+| **Analog scratch** | Enable analog input handling for the scratch/turntable axis on this device |
+| **Analog threshold** | Minimum axis movement required to trigger a scratch event |
+| **Analog mode** | **Ver. 2 (Newest)** or **Ver. 1 (~0.6.9)** scratch detection algorithm |
+
+### Analog scratch threshold
+
+<Note>
+  As of version 0.4.0, the default analog scratch threshold was changed from **100** to **50**. If you are upgrading from an older version and notice your scratch feels more sensitive than before, check the threshold value in the controller table and adjust it to your preference.
+</Note>
+
+Lower threshold values make the scratch more sensitive (less physical movement required to trigger an input). Higher values require more movement. The valid range is 1 to 1000.
+
+### Malformed USB device handling
+
+Endless Dream 0.2.0 added error handling for USB devices that present themselves as controllers but have malformed or incomplete HID descriptors. Previously these devices could cause a crash on startup. They are now detected and skipped gracefully, with an error logged to `endlessdream.log`.
+
+<Note>
+  If a controller you own is not appearing in the device table, check `endlessdream.log` for any device-related error messages. The device may be detected but skipped due to a malformed descriptor.
+</Note>
+
+## Tips for controller setup
+
+<Steps>
+  <Step title="Connect your controller before launching">
+    Plug in your USB controller before starting the launcher. Devices connected after the launcher opens may not appear in the table without restarting the launcher.
+  </Step>
+  <Step title="Enable analog scratch for turntable controllers">
+    If you are using a IIDX-style controller with a turntable, check the **Analog scratch** box for that device's row and set an appropriate threshold. Start at the default of 50 and decrease if the turntable feels unresponsive.
+  </Step>
+  <Step title="Configure per play mode">
+    Remember that each play mode (7K, 14K, etc.) stores its own controller configuration. If you switch between modes, return to the Input tab and verify the settings for each mode you play.
+  </Step>
+  <Step title="Save and restart">
+    After making changes in the Input tab, the launcher writes them to your player config when you start the game. Configuration also saves periodically while the game is running.
+  </Step>
+</Steps>

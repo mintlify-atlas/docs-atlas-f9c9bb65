@@ -1,133 +1,65 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
-icon: 'star'
+title: "LR2oraja Endless Dream: BMS Rhythm Game Client"
+description: "Endless Dream is a featureful community fork of beatoraja with in-game mod menus, LR2IR leaderboards, a built-in song downloader, and live skin configuration."
 ---
 
-## Setting up
+LR2oraja Endless Dream is a drop-in replacement for [beatoraja](https://github.com/exch-bms2/beatoraja) — the open-source BMS rhythm game client. Built on top of [LR2oraja](https://github.com/wcko87/lr2oraja) (which restores LR2-style judges and gauges), Endless Dream adds a rich set of quality-of-life features, including an in-game mod menu, real-time skin editing, LR2IR leaderboards, and automatic song downloading.
 
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/getting-started/installation">
+    Download Endless Dream for Windows, Linux, or macOS and set it up alongside your existing beatoraja install.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Mod Menu" icon="sliders" href="/gameplay/mod-menu">
+    Press F5 or Insert to open the in-game mod menu. Access rate modifiers, random trainer, skin settings, and more.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Song Downloader" icon="cloud-arrow-down" href="/features/song-downloader">
+    Browse and download BMS charts directly from within the game without leaving music select.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="LR2IR Leaderboards" icon="trophy" href="/features/lr2ir-leaderboards">
+    View LR2IR scores in-game and ghost battle against top players with matched randoms.
   </Card>
-</Columns>
+  <Card title="Skin Configuration" icon="paintbrush" href="/features/skin-configuration">
+    Edit skin settings and widget dimensions live without restarting the game.
+  </Card>
+  <Card title="Building from Source" icon="code" href="/development/building">
+    Set up a development environment with JDK 17 and Gradle to contribute to Endless Dream.
+  </Card>
+</CardGroup>
 
-## Create beautiful pages
+## Key features
 
-Everything you need to create world-class documentation.
+<CardGroup cols={2}>
+  <Card title="Random Trainer" icon="shuffle" href="/features/random-trainer">
+    Lock in specific random seeds, shift lane order, and mirror lanes for practice.
+  </Card>
+  <Card title="Discord Webhooks" icon="discord" href="/features/discord-webhooks">
+    Automatically send screenshots and scores to Discord channels via webhooks.
+  </Card>
+  <Card title="OBS Integration" icon="video" href="/features/obs-integration">
+    Automate OBS scene switching and recording from within the Endless Dream launcher.
+  </Card>
+  <Card title="Difficulty Tables" icon="table" href="/configuration/tables">
+    Manage and subscribe to difficulty tables with a built-in list of popular community tables.
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Getting started
 
-## Make your content agent ready
+<Steps>
+  <Step title="Download Endless Dream">
+    Grab the latest release for your operating system from the [releases page](https://github.com/seraxis/lr2oraja-endlessdream/releases).
+  </Step>
+  <Step title="Install alongside beatoraja">
+    Follow the [installation guide](/getting-started/installation) to set up Endless Dream in a new or existing beatoraja directory.
+  </Step>
+  <Step title="Launch and configure">
+    Run the launcher and configure your BMS folders, audio settings, input, and skins before starting the game. See [First Run](/getting-started/first-run).
+  </Step>
+  <Step title="Open the mod menu in-game">
+    Press **F5** or **Insert** to open the mod menu and explore rate modifiers, the random trainer, and skin configuration options.
+  </Step>
+</Steps>
 
-Make your docs work for humans and AI agents alike.
-
-<Columns cols={2}>
-  <Card
-    title="Prompt component"
-    icon="robot"
-    href="/agent-ready/prompt"
-  >
-    Embed shareable AI prompts readers can copy or open in Cursor.
-  </Card>
-  <Card
-    title="Visibility"
-    icon="eye"
-    href="/agent-ready/visibility"
-  >
-    Show different content to humans and agents reading your docs.
-  </Card>
-  <Card
-    title="Contextual menu"
-    icon="bolt"
-    href="/agent-ready/contextual"
-  >
-    Give readers one-click access to Claude, ChatGPT, Cursor, and more.
-  </Card>
-  <Card
-    title="AI coding tools"
-    icon="wand-magic-sparkles"
-    href="/ai-tools/claude-code"
-  >
-    Set up Claude Code, Cursor, or Windsurf with Mintlify's skill.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Note>
+  Endless Dream requires **Java 17** (Full JDK with JavaFX). The recommended distribution is [Liberica JDK Full](https://bell-sw.com/pages/downloads/#jdk-17-lts). The bundled `beatoraja-0.8.8 JRE` download does **not** include JavaFX and cannot launch Endless Dream.
+</Note>

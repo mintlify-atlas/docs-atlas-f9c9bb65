@@ -1,0 +1,40 @@
+---
+title: "Post Screenshots to Discord Automatically via Webhooks"
+description: "Automatically post screenshots to one or more Discord channels as plain images or rich score embeds whenever you take a screenshot in-game."
+---
+
+Endless Dream can send your screenshots to Discord automatically the moment you take them in-game. You configure one or more Discord webhook URLs in the launcher, choose between a plain image post or a rich embed that includes your score data, and the game handles the rest. No bot setup or OAuth is required — only a Discord webhook URL.
+
+## Configuration
+
+<Steps>
+  <Step title="Create a Discord webhook">
+    In the Discord server or channel where you want screenshots posted, go to **Channel Settings → Integrations → Webhooks** and create a new webhook. Copy the webhook URL.
+  </Step>
+  <Step title="Open the Discord tab in the launcher">
+    Launch the Endless Dream launcher (or open it from inside the game). Select the **Discord** tab.
+  </Step>
+  <Step title="Add webhook URLs">
+    Paste the webhook URL you copied into the URL text field and click **Add**. Repeat for every channel you want to post to. URLs appear in the list below; you can reorder them with the **Up** and **Down** buttons or remove entries with **Remove**.
+  </Step>
+  <Step title="Set a display name and avatar (optional)">
+    The **Webhook Name** field controls the username that appears in Discord when the bot posts. Leave it blank to use the default name `Endless Dream`. The **Webhook Avatar** field accepts an image URL to set a custom avatar for the posts.
+  </Step>
+  <Step title="Choose the post format">
+    Use the **Webhook Option** dropdown to select how screenshots are posted:
+
+    - **Plain image** — posts only the screenshot file with no additional text.
+    - **Rich embed** — posts a Discord embed alongside the screenshot. On result screens (music result or course result), the embed includes DJ level, EX score, BAD/POOR count, IR rank, lane pattern (7K), and links to LR2IR and the BMS score viewer. The embed color matches the clear type of the result.
+  </Step>
+  <Step title="Save and test">
+    Click **Save** (or start the game). Take a screenshot in-game — the game sends the image to all configured webhook URLs immediately. An in-game notification confirms the post if anything goes wrong.
+  </Step>
+</Steps>
+
+## When webhooks fire
+
+Webhooks are triggered only when you take a screenshot. They are not sent on every result screen visit — the screenshot must be captured explicitly. If you are on a result screen when you take the screenshot and the rich embed option is selected, the embed is populated with the score data from that result.
+
+## Multiple channels
+
+All webhook URLs in your list receive the same post simultaneously. You can add as many channels as you need — there is no enforced limit in the configuration.

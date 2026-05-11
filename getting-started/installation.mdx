@@ -1,0 +1,86 @@
+---
+title: "Install LR2oraja Endless Dream on Windows, Linux, or macOS"
+description: "Download the Endless Dream jar for your operating system and drop it into a new or existing beatoraja 0.8.8 directory to replace the default client."
+---
+
+This guide walks you through installing LR2oraja Endless Dream. By the end you will have a working Endless Dream directory that you can launch like a standard beatoraja install. Choose the tab below that matches your situation: starting fresh with no existing beatoraja install, or upgrading from an install you already have.
+
+## Java 17 requirement
+
+Endless Dream requires Java 17 with JavaFX. The JRE bundled inside the `beatoraja-0.8.8 JRE` zip does **not** include JavaFX and cannot run Endless Dream.
+
+<Note>
+  Download the [Liberica JDK Full](https://bell-sw.com/pages/downloads/#jdk-17-lts) for your operating system. On the download page, set **Version** to 17 LTS and **Package** to **Full JDK**. The Full JDK includes JavaFX, which is required. After installing, verify by running `java -version` in a terminal — you should see `openjdk 17` or similar.
+</Note>
+
+## Download Endless Dream
+
+Download the jar for your operating system from the [releases page](https://github.com/seraxis/lr2oraja-endlessdream/releases). The file will be named `lr2oraja-0.8.8-endlessdream-<platform>-<version>.jar`. Keep this file handy; you will copy it into your beatoraja directory in the steps below.
+
+Available builds:
+
+- **Windows** — `lr2oraja-0.8.8-endlessdream-windows-<version>.jar`
+- **Linux** — `lr2oraja-0.8.8-endlessdream-linux-<version>.jar`
+- **macOS (Apple Silicon)** — `lr2oraja-0.8.8-endlessdream-macos-aarch64-<version>.jar`
+- **macOS (Intel)** — `lr2oraja-0.8.8-endlessdream-macos-<version>.jar`
+
+Development builds are published as releases on every commit if you need the latest changes.
+
+## Installation
+
+<Tabs>
+  <Tab title="From scratch">
+    Use this path if you do not already have a beatoraja install and want to set everything up from nothing.
+
+    <Steps>
+      <Step title="Download the beatoraja 0.8.8 base package">
+        Download the latest [`beatoraja-0.8.8 JRE`](https://mocha-repository.info/download/beatoraja0.8.8-jre-win64.zip) bundled version. This zip contains the full beatoraja directory layout including skins, fonts, and default configuration files.
+      </Step>
+      <Step title="Unzip the archive">
+        Extract the zip file to a location on your computer where you keep applications — for example, `C:\Games\beatoraja0.8.8` on Windows or `~/Applications/beatoraja0.8.8` on macOS and Linux.
+      </Step>
+      <Step title="Delete the original beatoraja jar">
+        Open the unzipped directory. Find the file named `beatoraja.jar` and delete it. This is the upstream beatoraja executable that Endless Dream will replace.
+      </Step>
+      <Step title="Copy the Endless Dream jar into the directory">
+        Copy the `lr2oraja-0.8.8-endlessdream-<platform>-<version>.jar` you downloaded earlier into the beatoraja directory (the same folder where `beatoraja.jar` was).
+      </Step>
+      <Step title="Rename the jar to beatoraja.jar">
+        Rename the copied `lr2oraja.*.jar` file to exactly `beatoraja.jar`. The launcher scripts (`beatoraja.bat` on Windows, `beatoraja.sh` on Linux and macOS) expect this filename.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="From existing beatoraja install">
+    Use this path if you already have a working beatoraja install and want to run Endless Dream side-by-side without losing your existing setup.
+
+    <Steps>
+      <Step title="Duplicate your existing beatoraja directory">
+        Make a full copy of your existing beatoraja install directory. This preserves your current player data, skins, and song database so you can still run the original client.
+      </Step>
+      <Step title="Rename the copy">
+        Rename the copied directory to `endless-dream` (or any name you prefer) so you can tell the two installs apart.
+      </Step>
+      <Step title="Delete beatoraja.jar from the copy">
+        Open the `endless-dream` directory and delete the `beatoraja.jar` file inside it. Do not touch the original install.
+      </Step>
+      <Step title="Copy the Endless Dream jar into the directory">
+        Copy the `lr2oraja-0.8.8-endlessdream-<platform>-<version>.jar` you downloaded earlier into the `endless-dream` directory.
+      </Step>
+      <Step title="Rename the jar to beatoraja.jar">
+        Rename the copied `lr2oraja.*.jar` to `beatoraja.jar`. The launcher scripts look for this exact filename.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Verify the installation
+
+After following the steps above, your directory should contain `beatoraja.jar` (the renamed Endless Dream jar) alongside the standard beatoraja directory contents (`skin/`, `player/`, `font/`, `table/`, launcher scripts, and so on). On Windows you can launch the game with `beatoraja.bat`; on Linux and macOS use `beatoraja.sh` or invoke the jar directly with `java -jar beatoraja.jar`.
+
+<Tip>
+  On Windows, if double-clicking `beatoraja.bat` opens a command window and then closes immediately, your `java` command is not pointing to the Liberica JDK 17 Full installation. Set the `JAVA_HOME` environment variable to the Liberica JDK 17 installation directory, or edit `beatoraja.bat` to use the full path to the `java` executable.
+</Tip>
+
+## Next steps
+
+With Endless Dream installed, continue to [Configure Endless Dream After Installation](/getting-started/first-run) to add your BMS music folders, choose a skin, and set up audio before playing your first chart.

@@ -1,0 +1,89 @@
+---
+title: "Configure Audio: Driver, Buffer, Volume, and Normalization"
+description: "Configure the audio driver, buffer size, sample rate, volume levels, and per-chart loudness normalization in LR2oraja Endless Dream."
+---
+
+Endless Dream inherits beatoraja's flexible audio stack and extends it with per-chart volume normalization. All audio settings live in the **Audio** tab of the launcher and are stored in the `audio` object inside `config_sys.json`. Getting audio right — particularly the buffer size — is the single most effective thing you can do to reduce input lag.
+
+## Audio driver
+
+<AccordionGroup>
+  <Accordion title="OpenAL (default)">
+    The default driver, provided by libGDX. Works out of the box on Windows, Linux, and macOS without additional setup. OpenAL is a good choice for most players.
+
+    When OpenAL is selected, the device name picker is disabled — OpenAL uses the system default audio device automatically.
+  </Accordion>
+
+  <Accordion title="PortAudio">
+    An alternative low-level driver that exposes individual audio devices by name. Select **PortAudio** from the **Audio Driver** dropdown and then choose your output device from the **Device Name** list that appears. If no PortAudio devices are detected the launcher falls back to OpenAL automatically and logs an error.
+
+    PortAudio can offer lower latency on some systems, particularly on Windows with ASIO or WASAPI exclusive-mode devices.
+  </Accordion>
+</AccordionGroup>
+
+## Buffer and latency
+
+<AccordionGroup>
+  <Accordion title="Device buffer size">
+    The number of audio frames the driver buffers before sending audio to your speakers. The default is **384 frames**.
+
+    - **Too high**: audible delay between hitting a key and hearing the keysound, making accurate play difficult.
+    - **Too low**: audio underruns manifest as clicks, pops, or crackling noise.
+
+    Valid range: 4 – 4096 frames. Tune this value downward until you hear audio artifacts, then increase it slightly for a stable result. Common stable values are 128, 256, or 512 frames depending on your hardware and OS audio stack.
+  </Accordion>
+
+  <Accordion title="Simultaneous sources">
+    The maximum number of sounds that can play at the same time. Default is **128**. BMS charts can trigger many keysounds simultaneously during dense patterns — increasing this prevents sounds from being cut off during busy sections. Valid range: 16 – 1024.
+  </Accordion>
+
+  <Accordion title="Sample rate">
+    Forces the audio device to use a specific sample rate. Options are **44100 Hz**, **48000 Hz**, or blank (let the system decide). Leave this blank unless you have a specific reason to override it, such as matching your hardware's native rate to avoid resampling artifacts.
+  </Accordion>
+</AccordionGroup>
+
+## Volume controls
+
+The Audio tab provides three independent volume sliders, each ranging from 0.0 to 1.0:
+
+| Slider | Controls |
+|---|---|
+| **System volume** | UI sounds, BGM in music select, and other non-chart audio |
+| **Key volume** | Keysounds triggered by note hits during gameplay |
+| **BG volume** | Background note sounds that play automatically regardless of player input |
+
+<Note>
+  When **Normalize Volume** is enabled, the key volume and BG volume sliders are disabled. Volume levels are managed automatically on a per-chart basis instead.
+</Note>
+
+## Volume normalization
+
+Endless Dream 0.4.0 introduced automatic per-chart loudness normalization. When enabled, the game analyzes each chart's audio and adjusts playback volume so that every chart plays at a consistent perceived loudness, regardless of how the original BMS files were mastered.
+
+To enable normalization, check the **Normalize Volume** box in the Audio tab of the launcher. The key volume and BG volume sliders will be grayed out while normalization is active — Endless Dream manages these levels automatically.
+
+<Note>
+  Volume normalization is off by default. Enable it if you find yourself adjusting volume between charts or if particularly loud or quiet charts are disrupting your play experience.
+</Note>
+
+## Frequency and fast-forward options
+
+<AccordionGroup>
+  <Accordion title="Freq option (practice mode)">
+    Controls how audio is handled when the **FREQ** rate modifier is active in practice mode. Two modes are available:
+
+    - **FREQUENCY** (default): playback speed changes, and pitch changes proportionally (like playing a record faster or slower).
+    - **UNPROCESSED**: no pitch or speed adjustment is applied.
+  </Accordion>
+
+  <Accordion title="Fast forward">
+    Controls audio behavior during the fast-forward feature. Same options as freq option: **FREQUENCY** or **UNPROCESSED**.
+  </Accordion>
+</AccordionGroup>
+
+## Result screen audio
+
+Two checkboxes in the Audio tab control result screen behavior:
+
+- **Loop result sound**: loops the result screen BGM instead of playing it once.
+- **Loop course result sound**: same setting, applied to the course result screen shown after completing a course.

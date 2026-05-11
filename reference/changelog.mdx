@@ -1,0 +1,154 @@
+---
+title: "LR2oraja Endless Dream Version History and Changelog"
+description: "Full version history of LR2oraja Endless Dream, covering all releases from the initial 0.0.1 through 0.4.0 with features, behavior changes, and bug fixes."
+---
+
+This page lists every release of LR2oraja Endless Dream. Each entry covers new features, behavior changes, and bug fixes for that version.
+
+<AccordionGroup>
+
+  <Accordion title="0.4.0">
+    **New features:**
+    - Song manager: sort songs by least recently played first
+    - Random Trainer: shift or mirror the lane order
+    - New launcher option (Music Select tab) to skip the DECIDE screen entirely
+    - Configure lane cover, lift, and hidden in-game via Misc Settings in the mod menu
+    - Send scores to Discord via configurable webhooks
+    - In-game leaderboards for beatoraja IR and LR2IR (read-only)
+    - Automatic per-chart volume normalization
+    - In-game skin widget manager — resize and reposition skin elements with the mouse, with full undo history
+    - Song select context menu (accessed with former autoplay and practice keys)
+    - Live skin configuration via the mod menu
+    - New difficulty table management UI with a built-in list of popular tables
+    - Ghost battle against LR2IR scores, accessed through the in-game LR2IR leaderboard
+    - New launcher option to display LNs with CN endings (off by default)
+    - OBS WebSocket control integration for scene switching and recording
+
+    **Behavior changes:**
+    - Default analog scratch threshold changed from 100 to 50
+    - New ImGui presentation for all in-game notifications
+    - Playing courses with CONSTANT now grants Assist Clear (previously CONSTANT had no effect on clear type)
+    - The spinning turntable emblem now animates more smoothly
+    - Quickly scrolling through music select is now less loud
+    - Improved audio transitions between scenes
+    - Music previews generated with the preview generator tool have lower priority
+    - Skins with large bitmap fonts load faster
+    - Downloading songs now shows a progress bar
+    - Launcher: loading tables and BMS files displays a progress window instead of hanging
+    - Switching to CN/HCN LN modes disabled in-game; only available in the launcher
+    - Esc closes the current folder instead of the game, unless at the top level of music select
+    - Game shows a warning notification when playing with modifiers that disable score saving or IR submission
+    - Song downloader menu has a button to retry failed downloads
+    - Configuration saves automatically on a periodic interval
+    - Re-enabled the Konmai downloading service
+    - Logs are now stored in `endlessdream.log` in plaintext
+
+    **Bug fixes:**
+    - Fixed a crash when launching borderless without a monitor configured
+    - Fixed several issues with loading osu files
+    - On Linux: fixed opening chart folders with F3, the broken new version download link, and the launcher becoming non-functional after starting the game
+    - Fixed Discord rich presence on macOS
+    - Fixed bitmap font text becoming transparent when the previously rendered skin element used a blending mode
+    - Fixed a crash caused by incorrect entries in some difficulty tables
+    - Fixed the F4 fullscreen toggle causing skins to malfunction with certain resolution configurations
+    - Fixed a Wayland JVM crash affecting users with NVIDIA graphics drivers
+    - Fixed a SQL usage bug that caused a memory leak while navigating music select
+    - Fixed certain WAV files not playing properly
+
+    **Known issues in this release:**
+    - Downloading many charts simultaneously may lock the song database. Restart and manually reload the folder to see new songs.
+    - After changing music select skins, some song wheel elements from the previous skin may remain until the game is restarted.
+    - After changing play skins, measure bars may display incorrectly until reload.
+    - [Linux] Certain skin fonts may only load partially due to filename case mismatch. Rename the offending files to resolve.
+    - [Linux] Skin settings from Windows `config.json` / `config_player.json` may not transfer. Replace backslashes with forward slashes in skin paths.
+
+    Thanks to @seraxis, @Catizard, @Arctice, @llm96, @Kolyasisan, @pfych, @NotAkitake, @Rac0r, and @corndogit!
+  </Accordion>
+
+  <Accordion title="0.3.0">
+    **Requires Java 17 with JavaFX.** Download the [Liberica Full JDK 17](https://bell-sw.com/pages/downloads/#jdk-17-lts).
+
+    **New features:**
+    - In-game song downloader: attempting to play an undownloaded chart initiates a download; downloaded songs land in a new directory for manual sorting
+    - Support for `.osu` chart files — add your osu! songs folder to your BMS path like any BMS folder
+    - Support for Intel and Apple Silicon Macs
+    - Chart judge rank override in the mod menu
+    - Reverse table lookup for charts
+    - Fullscreen and borderless monitor selection in the launcher
+    - Updated to upstream beatoraja 0.8.8:
+      - Java version upgraded from 8 to 17
+      - CONSTANT scroll function added (produces Assist Clears in Endless Dream)
+      - Some skin properties changed — consult `SkinProperty.java` for the current IDs
+
+    **Behavior changes:**
+    - Freq can no longer be changed mid-game; IR submissions are flagged to distinguish freq plays
+    - Fixed the LR2 auto-adjust logic
+    - Various fixes for state transition timings
+
+    Thanks to @seraxis, @Catizard, @MatVeiQaaa!
+  </Accordion>
+
+  <Accordion title="0.2.1">
+    **New features:**
+    - Added IntelliJ run/build Gradle run configurations to the repository
+
+    **Behavior changes:**
+    - Fixed the launcher not closing after the game exits, which prevented settings from being saved between sessions
+
+    Thanks to @seraxis, @corndogit!
+  </Accordion>
+
+  <Accordion title="0.2.0">
+    **New features:**
+    - Updated to upstream beatoraja 0.8.7:
+      - Base 62 keysound slots for BMS
+      - General code cleanup
+      - Addition of "pomu" mascot characters
+      - A new `font/` directory is now required
+
+    **Behavior changes:**
+    - `F5` now opens the mod menu in addition to `Insert`
+    - Auto adjust now behaves like LR2's: less sensitive with a gentler hysteresis
+    - Scores that fail to send to IR are retried throughout the session — no more lost scores
+    - The `Trainer` config tab has been removed; its functionality is in the mod menu
+    - Error handling added for malformed USB devices that present as controllers
+    - Negative FREQ no longer prevents score saving when the trainer is disabled
+
+    Thanks to @seraxis, @wcko87, @MatVeiQaaa, @radiden!
+  </Accordion>
+
+  <Accordion title="0.1.1">
+    **New features:**
+    - Added the **Rate Modifier**: an in-game mod menu tool for changing chart playback speed (FREQ)
+    - Consolidated the Random Trainer and Rate Modifier into a unified mod menu
+
+    **Behavior changes:**
+    - Removed the hard-coded "illegal song hash" blocklist; previously unimportable BMS files can now be loaded
+    - The config version checker now works correctly, displays in English, and links to the correct release page
+    - Error handling added for failed BMS/BMSON parses during library import
+
+    Thanks to @seraxis, @hadronyche!
+  </Accordion>
+
+  <Accordion title="0.1.0">
+    **New features:**
+    - Updated from libGDX 1.9.8 to 1.12.1 and migrated from Ant to Gradle 8.4:
+      - Switched graphics backend from lwjgl 2.9.2 to lwjgl 3.3.3
+      - Replaced RawInput controller support with a custom `Lwjgl3ControllerManager`
+    - Added [imgui-java](https://github.com/SpaiR/imgui-java) for the Random Trainer UI, accessible via `Insert`
+    - Added logical operators for random select filters defined in `random/default.json`
+
+    **Behavior changes:**
+    - Hi-speed Fix now displays in song select even when not hovering over a song
+    - Song select random BGM no longer plays over itself when exiting quickly
+    - IR jars compatible before beatoraja 0.8.6 remain compatible
+    - BMS path subdirectory processing is now parallelized — library changes process significantly faster
+
+    Thanks to @seraxis, @Kolyasisan, @MatVeiQaaa!
+  </Accordion>
+
+  <Accordion title="0.0.1">
+    Initial public GitHub release.
+  </Accordion>
+
+</AccordionGroup>

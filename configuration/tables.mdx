@@ -1,0 +1,92 @@
+---
+title: "Add and Manage BMS Difficulty Tables in Endless Dream"
+description: "Learn how to add, reload, and manage BMS difficulty tables in Endless Dream using the built-in table list and manual URL entry."
+---
+
+In BMS, a difficulty table is a community-maintained ranking of charts by how hard they are to clear. Tables group charts into numbered tiers — for example, the Normal table uses ☆1–☆12 and the Insane table uses ★1–★25. Players use tables to find charts at an appropriate challenge level and to track their progress through the community's standard difficulty scale.
+
+Endless Dream makes table management significantly easier than upstream beatoraja. Version 0.4.0 introduced a new table management UI in the **Resource** tab of the launcher that includes a built-in curated list of popular community tables, so you do not need to look up or copy URLs manually for the most common tables.
+
+## How tables work
+
+Table data is fetched from URLs you configure and stored locally in the `table/` directory inside your beatoraja installation. The game reads from this local cache during play — it does not fetch tables from the network during gameplay. You need to reload tables in the launcher whenever you add new ones or want to pick up updates from a table's maintainer.
+
+## Adding a table from the built-in list
+
+The **Available Tables** panel in the Resource tab shows a curated set of popular community tables that are not yet in your active list. These include Stardust, Starlight, Satellite, Stella, Normal 1 and 2, Insane 1 and 2, Overjoy, and many specialty tables for LN, scratch, DP, and more.
+
+<Steps>
+  <Step title="Open the launcher and go to Resource">
+    Launch Endless Dream and click the **Resource** tab in the launcher window.
+  </Step>
+  <Step title="Find the table in the Available Tables list">
+    Scroll through the **Available Tables** panel at the bottom of the Resource tab. Each entry shows the table name, a short description, and its URL.
+  </Step>
+  <Step title="Move it to your active list">
+    Select the table you want (hold Ctrl to select multiple), then click the arrow button to transfer it from **Available Tables** into your active **Table URLs** list above.
+  </Step>
+  <Step title="Reload tables">
+    Click **Load All Tables** (or **Load New Tables** to only fetch tables not yet downloaded) to download the table data. A progress window appears while the download runs.
+  </Step>
+</Steps>
+
+<Note>
+  After adding a table to your active list you must reload it before it appears in-game. Click **Load All Tables** or **Load New Tables** in the Resource tab to download the table data. Changes are not visible in the game until this step is complete.
+</Note>
+
+## Adding a table manually by URL
+
+If the table you want is not in the built-in list, you can add it by URL:
+
+<Steps>
+  <Step title="Find the table's URL">
+    Most BMS difficulty tables publish their URL on their website. The URL typically ends in `.html` or `.json` and serves the table header file.
+  </Step>
+  <Step title="Enter the URL in the launcher">
+    In the **Resource** tab, type or paste the table URL into the text field above the active table list. The URL must begin with `http`.
+  </Step>
+  <Step title="Click Add">
+    Click the **Add** button (or press Enter). The URL appears in your active **Table URLs** list.
+  </Step>
+  <Step title="Reload tables">
+    Click **Load All Tables** or **Load New Tables** to download the newly added table.
+  </Step>
+</Steps>
+
+## Reloading and refreshing tables
+
+The Resource tab provides three load actions:
+
+| Button | Behavior |
+|---|---|
+| **Load All Tables** | Re-downloads all tables in your active list, replacing cached data |
+| **Load New Tables** | Downloads only tables whose data has not yet been cached locally |
+| **Load Selected Tables** | Downloads only the tables you have selected in the active list |
+
+A progress window blocks the launcher while loading runs. After it closes, the table names displayed in the **NAME/STATUS** column update to reflect what was downloaded. If a table shows **not loaded**, its URL could not be reached or returned an error.
+
+## Reverse table lookup
+
+Endless Dream 0.3.0 added reverse table lookup for charts. When you highlight a song in the music select screen, the game can show you which difficulty tables reference that chart and at what level. This is useful for understanding where a chart sits in the community's difficulty scale without needing to search manually.
+
+<Note>
+  Reverse table lookup works from the locally cached table data. Make sure you have loaded your tables at least once before expecting this feature to return results.
+</Note>
+
+## Default tables
+
+The following tables are added to every new installation by default:
+
+| Table | Description |
+|---|---|
+| Stardust | Beginner ☆1–☆7 |
+| Starlight | Intermediate ☆7–☆12 |
+| Satellite | Insane ☆11–★19 |
+| Stella | High Insane to Overjoy ★19–★☆7 |
+| Normal 1 | Beginner to Intermediate ☆1–☆12 |
+| Insane 1 | Insane ★1–★25 |
+| Normal 2 (NEW GENERATION) | Post-2016 Normal ☆1–☆12 |
+| Insane 2 (NEW GENERATION) | Post-2016 Insane ★1–★25 |
+| Overjoy (NEW GENERATION) | ★☆0–★☆7 |
+
+You can remove any of these from your active list and move them to the Available Tables panel at any time using the arrow buttons in the Resource tab.

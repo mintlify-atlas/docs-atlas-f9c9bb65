@@ -1,0 +1,77 @@
+---
+title: "First-Run Setup: Configure Endless Dream After Installing"
+description: "Add your BMS music folders, select a skin, configure audio output, and verify your input before launching the game for the first time."
+---
+
+When you run Endless Dream for the first time, the beatoraja launcher opens before the game itself. This is where you tell the client where your BMS songs live, which skin to use, and how to handle audio. Getting these settings right before clicking **Play** avoids common issues like a blank song list or silent audio. This page walks through each step in order.
+
+<Note>
+  If you need help beyond what this guide covers, the [Beatoraja English Guide](https://github.com/wcko87/beatoraja-english-guide/wiki) is a comprehensive community resource covering skins, song sources, difficulty tables, and more. You can also ask in the [Endless Dream Discord](https://discord.gg/HutCHCZHns).
+</Note>
+
+## First-run setup
+
+<Steps>
+  <Step title="Launch the game for the first time">
+    On **Windows**, double-click `beatoraja.bat` in your Endless Dream directory. On **Linux and macOS**, run `./beatoraja.sh` from a terminal, or invoke the jar directly with `java -jar beatoraja.jar`. The beatoraja launcher window opens. It has several tabs across the top: **System**, **Sound**, **Play Option**, **Music Select**, **Skin**, **Resource**, **IR**, **Discord**, and others depending on your version.
+  </Step>
+  <Step title="Add your BMS music folders">
+    Click the **Music Select** tab in the launcher. Look for the **Music path** section — this is a list of root directories that the game will scan for BMS, BME, BML, PMS, and `.osu` chart files.
+
+    Click **Add** (or the `+` button) and browse to any folder that contains BMS charts. You can add as many root directories as you like. Songs do not need to be at the top level of the folder; Endless Dream scans subdirectories recursively.
+
+    If you have osu songs you want to play, add your osu `Songs` folder here as well. Endless Dream supports `.osu` files alongside BMS.
+
+    After adding all your music paths, the game will scan and index them the first time you start. A progress window appears during loading — wait for it to complete.
+  </Step>
+  <Step title="Choose a skin">
+    Click the **Skin** tab. The launcher shows separate skin selectors for the **Music Select** scene and the **Play** scene. The default skins bundled with beatoraja work out of the box.
+
+    To use a community skin, download it, place the skin folder inside the `skin/` directory of your Endless Dream install, and then select it from the dropdown in the Skin tab. The [Beatoraja English Guide](https://github.com/wcko87/beatoraja-english-guide/wiki) has a curated list of skins with download links.
+
+    You can also change and fine-tune your skin live from inside the game using the **Skin Configuration** window in the mod menu (**`F5`** or **`Insert`**) without restarting.
+  </Step>
+  <Step title="Configure audio">
+    Click the **Sound** tab. Key settings to check:
+
+    - **Audio device** — select the output device you want to use. If you hear no sound in game, try a different device here.
+    - **Buffer size** — a lower value reduces audio latency but may cause crackling on slower systems. Start with the default and lower it if your hardware allows.
+    - **Automatic volume normalization** — an Endless Dream addition found in the **Audio** tab that normalizes volume per chart to avoid large loudness differences between songs. Enable it if you find some charts much louder than others.
+
+    Save your changes before moving on.
+  </Step>
+  <Step title="Review input settings">
+    Click the **Play Option** tab (or **Input** / **Key Config** depending on your launcher version) to verify your keyboard or controller bindings. For keyboard players the default bindings work for most layouts, but you may want to adjust scratch keys. For controller players, use the key assignment tool to map your device's buttons to BMS lanes and scratch.
+
+    If your controller appears as a malformed USB device, Endless Dream includes error handling for this case and should still detect the device.
+  </Step>
+  <Step title="Add difficulty tables (optional)">
+    Click the **Resource** tab. The **Difficulty tables** section lists table URLs the client will fetch and display in music select. Endless Dream ships with a built-in list of popular community tables (Stardust, Starlight, Satellite, Stella, Normal 1/2, Insane 1/2, Overjoy, and many more).
+
+    Click the table management button to browse the built-in list and add tables to your active list. After adding tables, click **Reload Tables** so the client fetches them before you start the game. See [Difficulty Tables](/configuration/tables) for more detail.
+  </Step>
+  <Step title="Launch the game">
+    Once your music paths, skin, and audio are configured, click **Play** (or the equivalent start button) at the bottom of the launcher. The game will open in music select. If you added music paths, your songs will appear after the initial scan completes.
+
+    Inside the game, press **`F5`** or **`Insert`** at any time to open the mod menu, which gives you access to rate modifiers, lane cover controls, the random trainer, in-game leaderboards, and skin configuration.
+  </Step>
+</Steps>
+
+## After your first session
+
+Once you are up and running, these pages cover the most commonly used Endless Dream features:
+
+<CardGroup cols={2}>
+  <Card title="Audio configuration" icon="volume-high" href="/configuration/audio">
+    Detailed audio settings including buffer size, device selection, and per-chart volume normalization.
+  </Card>
+  <Card title="Input and key config" icon="keyboard" href="/configuration/input">
+    Map keyboard keys and controller buttons to BMS lanes, scratch, and game functions.
+  </Card>
+  <Card title="Difficulty tables" icon="table" href="/configuration/tables">
+    Subscribe to and manage difficulty table URLs, including the built-in list of popular community tables.
+  </Card>
+  <Card title="Mod menu" icon="sliders" href="/gameplay/mod-menu">
+    Use rate modifiers, the random trainer, lane cover, and the in-game skin editor during play.
+  </Card>
+</CardGroup>

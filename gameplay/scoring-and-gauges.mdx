@@ -1,0 +1,101 @@
+---
+title: "Scores, Gauges, and Clear Types in Endless Dream"
+description: "How Endless Dream scores your plays, which gauge types are available, how clear types are determined, and when scores are saved or submitted to IR."
+---
+
+Endless Dream inherits its scoring and gauge system from LR2oraja, which in turn uses the judge timings and gauge formulas from Lunatic Rave 2 (LR2). Understanding how the game evaluates your play — and when it will or will not save your result — helps you make informed choices about which modifiers to use.
+
+## Judge timings
+
+Endless Dream uses **LR2-style judge timings** for all chart modes. This is the core change introduced by LR2oraja and carried forward into Endless Dream. The judge windows differ from upstream beatoraja's defaults, so scores and difficulty comparisons are made relative to other LR2oraja / Endless Dream players rather than standard beatoraja players.
+
+## Gauge types
+
+The gauge determines how your life bar behaves during play. Endless Dream provides the following gauge types, available depending on the chart mode (5K, 7K, PMS, keyboard, or LR2):
+
+<AccordionGroup>
+  <Accordion title="Assist Easy">
+    The most forgiving gauge. Starts at a low initial value and drains slowly. Intended for players learning a chart. Clearing with this gauge grants an **Assist Easy** clear type.
+  </Accordion>
+
+  <Accordion title="Easy">
+    A forgiving groove gauge. Starts partially filled, has a lower border requirement than Normal, and is more tolerant of misses. Clearing grants an **Easy** clear.
+  </Accordion>
+
+  <Accordion title="Normal">
+    The standard groove gauge. Starts partially filled; you need to reach the border threshold (typically 80% for 7K) by the end of the chart to clear. Clearing grants a **Normal** clear.
+  </Accordion>
+
+  <Accordion title="Hard">
+    Starts full (100%). Any miss or bad judgment drains the gauge. The gauge cannot be refilled above its current maximum as you play. If it reaches zero, the song ends immediately. Clearing grants a **Hard** clear.
+
+    The LR2 hard gauge uses a damage reduction table (guts) — when your gauge is low the drain per bad note is reduced slightly, giving you a small buffer near death.
+  </Accordion>
+
+  <Accordion title="EX Hard">
+    Like Hard, but with significantly increased damage per miss and bad judgment. Clearing grants an **EX Hard** clear.
+  </Accordion>
+
+  <Accordion title="Hazard">
+    Any single miss or bad judgment immediately ends the song (gauge drops to zero). Clearing grants an **EX Hard** or higher clear depending on performance.
+  </Accordion>
+
+  <Accordion title="Class / EX Class / EX Hard Class">
+    Gauge types used for course (dan) play. They follow the same drain logic as Hard and EX Hard respectively, but with parameters tuned for multi-song courses.
+  </Accordion>
+
+  <Accordion title="CONSTANT">
+    Locks the scroll speed to a fixed notes-per-second value regardless of BPM changes in the chart. The **Constant Fade-in** setting controls how quickly the speed locks in at the start of a song.
+
+    <Warning>
+      Using CONSTANT in Endless Dream counts as an **Assist Clear** modifier for single songs. Playing a course with CONSTANT enabled will also produce an **Assist Clear** rather than the gauge's natural clear type. This differs from upstream beatoraja, where CONSTANT previously had no effect on the clear lamp.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+## Clear types
+
+Your clear type is determined by the gauge you passed with and your performance at the end of the chart.
+
+| Clear Type | How it is earned |
+|---|---|
+| **No Play** | Song was not completed or score was not saved. |
+| **Failed** | Song ended before the chart finished (gauge depleted on Hard/Hazard) or the border was not reached on a groove gauge. |
+| **Assist Easy** | Cleared on the Assist Easy gauge, or CONSTANT was used on a single song or course. |
+| **Light Assist Easy** | A lighter variant of Assist Easy (gauge type index 0). |
+| **Easy** | Cleared on the Easy gauge. |
+| **Normal** | Cleared on the Normal gauge. |
+| **Hard** | Cleared on the Hard gauge. |
+| **EX Hard** | Cleared on the EX Hard gauge. |
+| **Full Combo** | All notes hit (no misses or poors that break combo). |
+| **Perfect** | All notes judged as Perfect Great. |
+| **Max** | Maximum possible score. |
+
+Clear types are cumulative — a higher clear on a chart replaces a lower one in your local database. They are also what IR servers use to categorise your best result per chart.
+
+## Score saving and IR submission rules
+
+Not all plays result in a saved score or an IR submission. The following conditions restrict scoring:
+
+<Note>
+  Endless Dream displays a **warning notification** at the start of any song where the active options will prevent score saving or IR submission. Watch for this notification when using the Rate Modifier or Random Trainer.
+</Note>
+
+| Condition | Local save | IR submission |
+|---|---|---|
+| Normal play (no restricting mods) | Saved | Submitted |
+| Rate Modifier enabled (rate > 100%) | Saved locally | Not submitted |
+| Rate Modifier enabled (rate < 100%, trainer disabled) | Saved | Submitted |
+| Random Trainer enabled | Not saved | Not submitted |
+| CONSTANT on a single song | Saved as Assist Clear | Submitted as Assist Clear |
+| CONSTANT on a course | Saved as Assist Clear | Submitted as Assist Clear |
+
+<Note>
+  Scores that fail to reach the IR on first attempt are automatically retried throughout your session. You will not lose scores due to a temporary network issue.
+</Note>
+
+## IR submission
+
+Endless Dream supports both **beatoraja IR** and **LR2IR** (Lunatic Rave 2 Internet Ranking). LR2IR leaderboards are available as a read-only view inside the [context menu](/gameplay/song-select#context-menu) in Music Select. G-BATTLE against LR2IR scores is also available from that menu.
+
+In-game leaderboards for both IR systems are shown automatically for the selected chart while you are in Music Select (after a short delay), provided you have an IR configured.

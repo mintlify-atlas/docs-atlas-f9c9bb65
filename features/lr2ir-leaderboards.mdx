@@ -1,0 +1,68 @@
+---
+title: "LR2IR In-Game Leaderboards and Ghost Battle (G-Battle)"
+description: "View Lunatic Rave 2 Internet Ranking scores for any chart and race a leaderboard ghost in a pacemaker challenge from inside Endless Dream."
+---
+
+LR2oraja Endless Dream can fetch and display score leaderboards from the Lunatic Rave 2 Internet Ranking (LR2IR) service directly inside music select. The integration is read-only — you can view scores and launch a ghost battle against any entry, but Endless Dream does not submit your scores to LR2IR. Access is through the song context menu, available on any chart in music select.
+
+## Opening the leaderboard
+
+<Steps>
+  <Step title="Navigate to a chart in music select">
+    Highlight the song you want to look up. The context menu can be opened on any individual chart or on a top-level table folder.
+  </Step>
+  <Step title="Open the context menu">
+    Press **key 3** or **key 5** (the same keys previously used for autoplay and practice mode) to open the context menu overlay.
+  </Step>
+  <Step title="Select the LR2IR leaderboard option">
+    Inside the context menu, choose the LR2IR leaderboard entry for the current chart. Endless Dream sends a request to LR2IR using the chart's MD5 hash and retrieves the top scores. Results are cached for the session so subsequent opens are instant.
+  </Step>
+  <Step title="Browse scores">
+    The leaderboard displays each entry's player name, clear type, EX score, combo, and minimum bad press count. Entries are sorted by EX score in descending order. Your own local score is also shown for comparison if one exists.
+  </Step>
+</Steps>
+
+## Starting a ghost battle
+
+Ghost battle lets you race against the note-by-note judgement record of a leaderboard score. When you enter ghost battle your pacemaker is set to challenge the selected score, giving you a direct target to beat.
+
+<Steps>
+  <Step title="Select a leaderboard entry">
+    With the leaderboard open, highlight the score you want to race against.
+  </Step>
+  <Step title="Press play on the entry">
+    Press the play button on the highlighted entry. Endless Dream fetches the ghost data for that score from LR2IR, including the random seed and lane order used when the score was set.
+  </Step>
+  <Step title="Play the chart">
+    The game starts with your pacemaker configured to challenge the selected score. If the RANDOM play option is active, the game will attempt to match the random that the leaderboard player used when they set the score.
+  </Step>
+</Steps>
+
+## Ghost battle details
+
+<AccordionGroup>
+  <Accordion title="Pacemaker challenge">
+    Your pacemaker target is set to the exact EX score of the leaderboard entry you selected. The ghost data contains a per-note judgement record, so the pacemaker reflects the actual score trajectory of the original run rather than a flat line.
+  </Accordion>
+  <Accordion title="RANDOM matching">
+    When you launch a ghost battle, Endless Dream reads the random option and seed from the LR2IR ghost record. If RANDOM is enabled as your play option, the lane order for your attempt is reconstructed from the same seed so you face the same note layout as the original player.
+  </Accordion>
+  <Accordion title="Supported random types">
+    The following random options recorded in LR2IR ghost data are supported:
+
+    | LR2IR option | Beatoraja equivalent |
+    |---|---|
+    | NONRAN | No random applied |
+    | MIRROR | MIRROR |
+    | RANDOM | RANDOM |
+
+    Ghost data recorded with S-RANDOM, H-RANDOM, or CONVERGE is not currently supported. If an unsupported random type is detected a warning notification is shown and the ghost battle is not started.
+  </Accordion>
+  <Accordion title="Key restrictions">
+    Ghost battle against LR2IR scores is currently limited to **7-key (7K) charts only**. Double-play (DP) and other key modes are not supported.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  LR2IR leaderboard access in Endless Dream is **read-only**. Your scores are not submitted to LR2IR through this integration. To appear on LR2IR, you must use a client that supports LR2IR score submission directly.
+</Note>

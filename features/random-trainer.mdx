@@ -1,0 +1,98 @@
+---
+title: "Random Trainer: Lock and Control Lane Randomisation"
+description: "Lock a specific random lane arrangement across retries, shift or mirror the lane order, and filter which charts appear in the Random Select feature."
+---
+
+The Random Trainer is a practice tool built into the mod menu that gives you precise control over the RANDOM play option. Instead of getting a different lane shuffle every attempt, you can lock a specific arrangement and keep it consistent across quick retries — useful for drilling a chart until you clear it, or for comparing your performance on the same layout. The trainer is accessible at any time through the mod menu, including during and between plays.
+
+## Accessing the Random Trainer
+
+Press **F5** or **Insert** to open the mod menu, then select **Random Trainer**. The window appears in the upper-right area of the screen and stays open across gameplay scenes.
+
+## Setting a fixed random
+
+<Steps>
+  <Step title="View the lane display">
+    The top of the Random Trainer window shows a row of seven lane buttons numbered 1–7, representing the current lane arrangement from left to right. White buttons are white keys and blue buttons are black keys. Lanes marked for randomization are shown in pink with a **?** label.
+  </Step>
+  <Step title="Reorder lanes by dragging">
+    Drag and drop any lane button to a new position to change the arrangement. The lane numbers update immediately to reflect the new order. This sets the fixed layout that will be used when the trainer is active.
+  </Step>
+  <Step title="Mark individual lanes for randomization">
+    Right-click any lane button to toggle it into random mode (shown in pink). Lanes in random mode are shuffled among themselves each time a chart loads, while the other lanes stay in their fixed positions. This lets you fix some lanes and randomize only a subset.
+  </Step>
+  <Step title="Enable the trainer">
+    Check **Trainer Enabled** under the Controls section. When active, the RANDOM play option will always produce the arrangement shown in the lane display instead of generating a new shuffle. You can toggle the trainer on and off and adjust the lane order between quick retries without returning to music select.
+  </Step>
+</Steps>
+
+## Lane manipulation buttons
+
+Three buttons below the lane display let you transform the current arrangement without dragging:
+
+| Button | Effect | Example |
+|--------|--------|---------|
+| **Mirror** | Reverses the lane order | `1234567` → `7654321` |
+| **Shift Left** | Rotates all lanes one position to the left | `1234567` → `2345671` |
+| **Shift Right** | Rotates all lanes one position to the right | `1234567` → `7123456` |
+
+## Additional controls
+
+<AccordionGroup>
+  <Accordion title="Track Current Random">
+    When **Track Current Random** is enabled and the trainer is disabled, the lane display updates automatically to show the random that was actually generated for the last chart you played. This lets you see what layout you got without locking it, and double-click an entry in the Random History table to promote it to the active fixed layout.
+  </Accordion>
+  <Accordion title="Black/White Random Permutation">
+    Enabling **Black/White Random Select** applies an additional shuffle step that keeps white keys in white-key positions and black keys in black-key positions. The lane buttons show as blank while this mode is active. This produces layouts that are more ergonomically natural while still varying the arrangement.
+  </Accordion>
+  <Accordion title="Random History">
+    The **Random History** tree node expands a table showing the song title and lane arrangement for each chart played in the current session. Double-click any row to set that arrangement as the current fixed random in the lane display.
+  </Accordion>
+</AccordionGroup>
+
+## Random Select filter configuration
+
+In addition to the manual trainer, Endless Dream includes a **Random Select** feature that picks a chart at random from your library according to filter rules defined in `random/default.json`. This file lives inside your beatoraja install directory and is loaded on startup.
+
+Each object in the array defines one named random-select preset. A preset with no `filter` key selects from all charts. A preset with a `filter` key restricts the pool to charts matching the filter conditions.
+
+### Default configuration
+
+```json
+[
+  {
+    "name": "RANDOM SELECT"
+  },
+  {
+    "name": "NO PLAY RANDOM SELECT",
+    "filter": {
+      "playcount": 0
+    }
+  },
+  {
+    "name": "FAILED RANDOM SELECT",
+    "filter": {
+      "clear": 1
+    }
+  }
+]
+```
+
+### Preset descriptions
+
+| Preset | Behavior |
+|--------|----------|
+| `RANDOM SELECT` | Selects a chart at random from your entire library with no restrictions. |
+| `NO PLAY RANDOM SELECT` | Restricts the pool to charts you have never played (`playcount: 0`). |
+| `FAILED RANDOM SELECT` | Restricts the pool to charts whose best clear is a failure (`clear: 1`). |
+
+### Filter properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `playcount` | integer | Matches charts with exactly this play count. Set to `0` to target unplayed charts. |
+| `clear` | integer | Matches charts whose best clear lamp equals this value. `1` corresponds to a failed clear (the chart has been attempted but never passed). |
+
+<Note>
+  You can add as many presets as you like to `random/default.json`. Logical operators for combining filter conditions are also supported. Restart the game after editing the file for your changes to take effect.
+</Note>

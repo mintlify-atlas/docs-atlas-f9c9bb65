@@ -1,0 +1,94 @@
+---
+title: "Run LR2oraja Endless Dream During Development (runShadow)"
+description: "Use the core:runShadow Gradle task to test your changes against a local beatoraja install without producing a distributable JAR."
+---
+
+For day-to-day development you can launch Endless Dream directly from Gradle without building a distributable JAR first. The `core:runShadow` task compiles the project and runs it in place, letting you iterate quickly on code changes.
+
+<Warning>
+  Do not use the default Gradle `run` tasks. They will not work correctly with this project. Always use `core:runShadow` to launch the game during development.
+</Warning>
+
+## Pointing to a beatoraja install
+
+By default, `core:runShadow` uses the `assets/` folder inside the repository as its working directory. To run against real song data and a full game installation, set the `-DrunDir` system property to the absolute path of your beatoraja 0.8.8 directory. The game will use that directory as its working directory, reading your songs, skins, and configuration from there.
+
+## IntelliJ IDEA setup
+
+<Steps>
+  <Step title="Open the Gradle tool window">
+    In IntelliJ IDEA, open the **Gradle** panel on the right side of the window. Expand **core → application / shadow** to find the available run and build tasks.
+  </Step>
+
+  <Step title="Locate the runShadow task">
+    Expand **core → Tasks → shadow** and find the `runShadow` task. Right-click it and select **Modify Run Configuration** (or click the three-dots menu next to the run configuration in the toolbar and choose **Edit Configurations**).
+  </Step>
+
+  <Step title="Add the runDir JVM argument">
+    In the run configuration editor, find the **VM options** (or **JVM arguments**) field and add:
+
+    ```
+    -DrunDir="C:\path\to\your\beatoraja0.8.8"
+    ```
+
+    Use the full absolute path to your beatoraja installation directory. On macOS and Linux, use forward slashes without quotes if the path contains no spaces.
+  </Step>
+
+  <Step title="(Optional) Enable IR testing">
+    To test Internet Ranking (IR) dependent changes, append the `useIR` property to the same VM options field:
+
+    ```
+    -DrunDir="/path/to/beatoraja0.8.8" -DuseIR=true
+    ```
+
+    When both `runDir` and `useIR=true` are set, the build system automatically configures the `-DcustomIRDirectory` to point to the `ir/` subdirectory of your beatoraja install.
+
+    <Note>
+      There is a [known bug](https://github.com/seraxis/lr2oraja-endlessdream/issues/189) with the `useIR` property. Check the linked issue for the current status and any workarounds before relying on this flag.
+    </Note>
+  </Step>
+
+  <Step title="Run the configuration">
+    Click the **Run** button or press **Shift+F10** to launch the game with your configured settings.
+  </Step>
+</Steps>
+
+## Resolving "Cannot Resolve Symbols" in IntelliJ
+
+IntelliJ IDEA sometimes cannot identify the project submodules, which causes missing class errors such as `bms.model.*`. This does not affect the ability to build or run the project, but it makes working with the code harder.
+
+<Note>
+  First verify that `core/dependencies/` contains both the `jbms-parser` and `jbmstable-parser` folders. If they are missing, run the following command to fetch them:
+
+  ```sh
+  git submodule update --init --recursive
+  ```
+
+  If the submodule folders are present but symbols are still unresolved, go to **File → Project Structure → Modules → core → Dependencies → Add → JARs or Directories** and add both `./core/dependencies/jbms-parser` and `./core/dependencies/jbmstable-parser`, then click **Apply**.
+</Note>
+
+## Running from the command line
+
+You can also run the project directly from a terminal. Pass the same system properties you would use in IntelliJ.
+
+<CodeGroup>
+
+```powershell Windows
+.\gradlew.bat core:runShadow -Dplatform=windows -DrunDir="C:\beatoraja0.8.8"
+```
+
+```sh Linux
+./gradlew core:runShadow -Dplatform=linux -DrunDir="/home/user/beatoraja0.8.8"
+```
+
+```sh macOS
+./gradlew core:runShadow -Dplatform=macos -DrunDir="/Users/user/beatoraja0.8.8"
+```
+
+</CodeGroup>
+
+To also enable IR testing from the command line, append `-DuseIR=true`:
+
+```sh
+./gradlew core:runShadow -Dplatform=linux -DrunDir="/home/user/beatoraja0.8.8" -DuseIR=true
+```

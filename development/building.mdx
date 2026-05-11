@@ -1,0 +1,68 @@
+---
+title: "Build LR2oraja Endless Dream from Source with Gradle"
+description: "Set up your environment and compile LR2oraja Endless Dream into a platform-specific JAR using Gradle and JDK 17 with JavaFX."
+---
+
+Building Endless Dream from source requires a JDK 17 installation that bundles JavaFX and a copy of the repository with all submodules checked out. The build system uses Gradle and produces a single fat JAR in the `dist/` directory that can drop into any compatible beatoraja 0.8.8 installation.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- **JDK 17 with JavaFX** — The standard JDK does not include JavaFX. Use [Liberica Full JDK 17](https://bell-sw.com/pages/downloads/#jdk-17-lts) and select **Package: Full JDK** on the downloads page.
+- **Git** — With submodule support. The repository uses Git submodules for `jbms-parser` and `jbmstable-parser`, so you must clone with `--recurse-submodules`.
+
+## Build workflow
+
+<Steps>
+  <Step title="Clone the repository with submodules">
+    Clone the repository and initialize all submodules in a single command. Omitting `--recurse-submodules` will result in missing source files under `core/dependencies/`.
+
+    ```sh
+    git clone --recurse-submodules git@github.com:seraxis/lr2oraja-endlessdream.git
+    ```
+  </Step>
+
+  <Step title="Choose your target platform">
+    The build system uses a `-Dplatform` system property to include the correct native libraries for your operating system. Pass one of `windows`, `linux`, or `macos` as shown in the next step.
+
+    <Note>
+      If you are building for Apple Silicon or any other ARM-based system, also add `-Darch=aarch64` to your Gradle command alongside `-Dplatform=macos`.
+    </Note>
+  </Step>
+
+  <Step title="Run the shadowJar task">
+    Run the `core:shadowJar` Gradle task for your platform. The Gradle wrapper (`gradlew` / `gradlew.bat`) is included in the repository — you do not need a separate Gradle installation.
+
+    <CodeGroup>
+
+    ```powershell Windows
+    .\gradlew.bat core:shadowJar -Dplatform=windows
+    ```
+
+    ```sh Linux
+    ./gradlew core:shadowJar -Dplatform=linux
+    ```
+
+    ```sh macOS (Intel)
+    ./gradlew core:shadowJar -Dplatform=macos
+    ```
+
+    ```sh macOS (Apple Silicon)
+    ./gradlew core:shadowJar -Dplatform=macos -Darch=aarch64
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Locate the output JAR">
+    After the build completes, the compiled JAR is placed in the `dist/` directory at the root of the repository. The filename encodes the platform and version, for example:
+
+    ```
+    dist/lr2oraja-windows-pre0.3.2.jar
+    dist/lr2oraja-macos-aarch64-pre0.3.2.jar
+    ```
+
+    Copy this JAR into your beatoraja 0.8.8 directory and rename it to `beatoraja.jar` to use it as a drop-in replacement.
+  </Step>
+</Steps>

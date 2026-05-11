@@ -1,0 +1,55 @@
+---
+title: "In-Game Song Downloader: Download BMS Charts In-Client"
+description: "Download missing BMS charts directly from within LR2oraja Endless Dream without leaving the game or hunting for files manually."
+---
+
+The in-game song downloader lets you acquire missing BMS charts without leaving the client. When you attempt to play a song that has not yet been downloaded, Endless Dream automatically submits a download task in the background. You can monitor all active and completed tasks through the **Download Tasks** window in the mod menu.
+
+## How it works
+
+<Steps>
+  <Step title="Attempt to play a missing chart">
+    In music select, navigate to a chart that appears in a difficulty table but whose files are not present locally. Select it and press the play button. Endless Dream detects that the song is missing and immediately queues a download task rather than starting the game.
+  </Step>
+  <Step title="Open the mod menu">
+    Press **F5** or **Insert** at any time to open the mod menu overlay.
+  </Step>
+  <Step title="Open the Download Tasks window">
+    Inside the mod menu, select **Download Tasks**. The window opens in the upper-right area of the screen.
+
+    The window has two tabs:
+
+    | Tab | Contents |
+    |-----|----------|
+    | **Running** | Tasks that are actively downloading or queued |
+    | **Expired** | Tasks that have finished (succeeded or failed) |
+
+    Each row in the table shows the task name, a progress readout displaying bytes downloaded against the total content size (for example, `4.2 MB / 18.0 MB`), and an action button if applicable.
+  </Step>
+  <Step title="Monitor download progress">
+    While a download is in progress, the **Progress** column updates with the current and total file size. A notification also appears on screen when a download starts and when it completes. Finished tasks move to the **Expired** tab automatically after five seconds.
+  </Step>
+  <Step title="Retry failed downloads">
+    If a task fails, an error message is displayed in red in the **Progress** column and a **Retry** button appears in the **Op** column. Click **Retry** to resubmit the task to the download processor.
+  </Step>
+  <Step title="Locate downloaded songs">
+    Downloaded charts are extracted into a new directory inside your beatoraja install. You may need to do a manual folder reload (or restart the game) before the new songs appear in music select.
+  </Step>
+</Steps>
+
+## Download task states
+
+Each task passes through several states during its lifecycle:
+
+- **Queued** — the task has been accepted and is waiting for a download slot.
+- **Downloading** — the file is actively being transferred. The progress column updates in real time.
+- **Extracted** — the archive has been unpacked and the song files are on disk.
+- **Error** — the download failed. The error message is shown in the progress column.
+
+## Submitting new tasks
+
+The only way to queue a download task is to attempt to play an undownloaded song from music select. There is no separate "browse and download" interface — the downloader is triggered by the missing-song detection in the play flow.
+
+<Note>
+  Downloading many charts at the same time may cause the song database to lock up. If this happens, the new songs will not appear in music select until you restart the game and perform a manual folder reload. To avoid this, let one or two downloads finish before triggering additional ones.
+</Note>

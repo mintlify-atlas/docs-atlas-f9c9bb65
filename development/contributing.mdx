@@ -1,0 +1,72 @@
+---
+title: "How to Contribute Code to LR2oraja Endless Dream"
+description: "Fork the repository, set up submodules, discuss your ideas with the community, and open a pull request to contribute to Endless Dream."
+---
+
+Endless Dream is a community-driven project and welcomes contributions of all kinds — bug fixes, new features, skin improvements, and documentation. The project is hosted on GitHub and most collaboration happens through issues, pull requests, and the Discord server.
+
+## Contribution workflow
+
+<Steps>
+  <Step title="Discuss your idea first">
+    Before writing any code, take a moment to discuss what you want to build. This helps avoid duplicate effort and makes sure your contribution aligns with the project's direction.
+
+    - Open a [GitHub issue](https://github.com/seraxis/lr2oraja-endlessdream/issues) to describe the bug or feature.
+    - Or join the Discord server to talk it through with other contributors and maintainers.
+
+    <Card title="Join the Discord server" icon="discord" href="https://discord.gg/HutCHCZHns">
+      The Discord server is where most day-to-day communication and collaboration happens. Ask questions, share ideas, and get feedback before you start.
+    </Card>
+  </Step>
+
+  <Step title="Fork the repository and create a branch">
+    [Fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) on GitHub, then clone your fork with submodules:
+
+    ```sh
+    git clone --recurse-submodules git@github.com:YOUR_USERNAME/lr2oraja-endlessdream.git
+    ```
+
+    Create a new branch for your work. Use a descriptive name that reflects what you are changing:
+
+    ```sh
+    git checkout -b my-feature-name
+    ```
+  </Step>
+
+  <Step title="Verify submodule setup">
+    The project uses two Git submodules located in `core/dependencies/`:
+
+    - `jbms-parser` — BMS/BMSON chart parser
+    - `jbmstable-parser` — difficulty table parser
+
+    Confirm both directories are populated after cloning:
+
+    ```sh
+    ls core/dependencies/
+    ```
+
+    If either folder is empty or missing, initialize them with:
+
+    ```sh
+    git submodule update --init --recursive
+    ```
+
+    <Note>
+      In IntelliJ IDEA, missing submodules can cause "Cannot Resolve Symbols" errors for classes like `bms.model.*`. This does not prevent the project from building or running. See the [running guide](/development/running) for instructions on how to fix symbol resolution in the IDE.
+    </Note>
+  </Step>
+
+  <Step title="Make your changes">
+    Implement your fix or feature. Use [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/other.html) or another Java IDE for the best development experience. Refer to the [build guide](/development/building) and [running guide](/development/running) for how to compile and test your changes locally.
+  </Step>
+
+  <Step title="Open a pull request against main">
+    Push your branch to your fork and [open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) against the `main` branch of the upstream repository. A maintainer will review your code and provide feedback.
+
+    Make sure to:
+
+    - Write a clear description of what the PR changes and why.
+    - Reference any related issues using `Closes #123` or `Fixes #123`.
+    - Keep the PR focused — one concern per pull request is easier to review and merge.
+  </Step>
+</Steps>

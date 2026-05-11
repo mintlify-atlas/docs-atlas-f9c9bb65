@@ -1,0 +1,109 @@
+---
+title: "Using the Endless Dream In-Game Mod Menu (F5 / Insert)"
+description: "A guide to the Endless Dream mod menu: rate modifiers, trainers, misc settings, skin tools, and more — all without leaving the game."
+---
+
+The mod menu is an overlay built into Endless Dream that gives you access to a collection of in-game tools. Press **F5** or **Insert** at any time while the game is running to toggle it open or closed. Once open, each tool is listed as a checkbox in the main "Endless Dream" window — enable the checkbox to open that tool's own floating window. All windows can be repositioned freely by dragging their title bars.
+
+<AccordionGroup>
+  <Accordion title="Rate Modifier">
+    The Rate Modifier window adjusts the playback speed of the current chart by a percentage between **50%** and **200%**, relative to the chart's original BPM.
+
+    Use the **−10%**, **−5%**, **−1%**, **+1%**, **+5%**, and **+10%** buttons to step the rate up or down, or drag the slider to set it directly. The **Reset** button returns the rate to 100%.
+
+    The **Rate Enabled** checkbox must be checked for the modifier to take effect. When Rate Enabled is on:
+
+    - Scores for plays at a **positive rate** (above 100%) are saved locally but are **not submitted to IR**.
+    - The result lamp is always recorded as **NO PLAY** regardless of gauge result.
+    - Plays at a **negative rate** (below 100%) with the trainer disabled do not prevent local score saving.
+
+    <Note>
+      A warning notification will appear when you start a song with the Rate Modifier active, reminding you that IR submission is disabled.
+    </Note>
+  </Accordion>
+
+  <Accordion title="Random Trainer">
+    The Random Trainer window lets you configure a randomized lane selection filter so you can practice specific lane configurations repeatedly. It is also accessible from the song select context menu.
+
+    The trainer supports shifting or mirroring the lane order in addition to standard random options. When the Random Trainer is enabled it influences the random seed applied to the chart — enabling the trainer restricts score saving and IR submission in the same way as the Rate Modifier.
+
+    For full documentation on filter configuration, see [Random Trainer](/features/random-trainer).
+  </Accordion>
+
+  <Accordion title="Judge Trainer">
+    The Judge Trainer window allows you to override the judge rank of the currently selected chart. This is useful when practising charts whose embedded `#RANK` value is set to a rank you find too easy or too difficult. The override applies only for the current session and does not modify the chart file.
+  </Accordion>
+
+  <Accordion title="Misc Settings">
+    The Misc Settings window exposes play settings that previously required a full game restart to change. Settings are applied per play mode (5K, 7K, 9K, 14K, etc.) — select the relevant mode from the **Play Mode** dropdown at the top of the window before editing.
+
+    | Setting | Description |
+    |---|---|
+    | Notification Position | Where on screen ImGui notifications appear. |
+    | Enable Lift / Lift Value | Raises the note judgement zone from the bottom of the playfield. Value is in thousandths (e.g. 100 = 0.1). |
+    | Enable Hidden / Hidden Value | Hides notes as they approach the judgement zone. |
+    | Enable LaneCover / Lane Cover Value | Applies a cover at the top of the playfield. |
+    | Lane Cover Margin (low / high) | Controls how quickly the cover moves at slow and fast scroll speeds. |
+    | Lane Cover Switch Duration | The time threshold (ms) between slow and fast cover movement. |
+    | Enable Constant / Constant Fade-in | Locks the scroll speed to a fixed notes-per-second value. The fade-in time controls how quickly the constant speed is reached at the start. |
+    | Player Profile | Switch between saved player profiles without restarting. Profile switching is only available while in Music Select. |
+
+    <Note>
+      Enabling the **Constant** option counts as an assist modifier in Endless Dream. See [Scores, Gauges, and Clear Types](/gameplay/scoring-and-gauges) for details.
+    </Note>
+  </Accordion>
+
+  <Accordion title="Skin Configuration">
+    The Skin Configuration window lets you edit skin settings live without leaving the game. It applies to whichever scene is currently displayed — to configure the play skin, open the menu and then start a chart; to configure the result skin, reach the result screen with the menu open.
+
+    You can freeze gameplay timers from within this window, which is especially useful for editing time-sensitive scenes like DECIDE. Changes are reflected immediately.
+
+    For a full walkthrough of the skin configuration workflow, see [Skin Configuration](/features/skin-configuration).
+  </Accordion>
+
+  <Accordion title="Skin Widget Manager">
+    The Skin Widget Manager lets you resize and reposition individual skin elements with the mouse directly on screen. Changes are tracked with a full undo history, and an undo button is available inside the window.
+
+    <Warning>
+      The Skin Widget Manager behaves abnormally when interacting with slider or scrollbar elements. Avoid using it to edit those element types.
+    </Warning>
+
+    For full documentation see [Skin Configuration](/features/skin-configuration).
+  </Accordion>
+
+  <Accordion title="Performance Monitor">
+    The Performance Monitor window displays a real-time breakdown of the game's rendering and update timings as an event tree. Opening the window automatically reloads the event tree so the data is fresh. Use it to diagnose frame-time spikes or identify which subsystem is consuming the most time.
+  </Accordion>
+
+  <Accordion title="Download Tasks">
+    The Download Tasks window shows the status of all active and queued song downloads initiated through the in-game song downloader. Each task displays a progress bar while downloading. If a download fails, a **Retry** button appears next to the failed entry.
+
+    For more on downloading songs, see the [Song Downloader](/features/song-downloader) page.
+  </Accordion>
+
+  <Accordion title="Song Manager">
+    The Song Manager window provides per-song metadata and utilities for the chart currently highlighted in the song wheel.
+
+    | Feature | Description |
+    |---|---|
+    | Current song / last played | Displays the title of the highlighted chart and the timestamp of your most recent play. |
+    | Sort by last played | Reorders the entire song wheel so songs you have played least recently appear first. Disable the checkbox to return to your default sort order. |
+    | Reverse Lookup | Shows which difficulty tables reference the selected chart. Click **Show Reverse Lookup** to open the popup. |
+  </Accordion>
+</AccordionGroup>
+
+## Context menu
+
+In addition to the mod menu, Music Select has a **context menu** you can open by pressing **key 3** or **key 5** on a song or top-level table folder. The context menu provides quick access to autoplay, practice mode, and the in-game LR2IR leaderboard for the selected chart. It is the primary way to initiate G-BATTLE against LR2IR scores.
+
+<CardGroup cols={2}>
+  <Card title="Random Trainer" icon="shuffle" href="/features/random-trainer">
+    Configure lane randomisation filters and practice options.
+  </Card>
+  <Card title="Skin Configuration" icon="palette" href="/features/skin-configuration">
+    Edit skin settings and resize elements live.
+  </Card>
+  <Card title="Song Downloader" icon="download" href="/features/song-downloader">
+    Download BMS charts from within the game.
+  </Card>
+</CardGroup>

@@ -1,0 +1,55 @@
+---
+title: "LR2oraja Endless Dream: What It Is and Why It Exists"
+description: "A community-maintained fork of beatoraja that ships quality-of-life patches, an in-game mod menu, LR2IR leaderboards, and a built-in song downloader all in one jar."
+---
+
+LR2oraja Endless Dream is a drop-in replacement for [beatoraja](https://github.com/exch-bms2/beatoraja), the open-source BMS rhythm game client. It builds on [LR2oraja](https://github.com/wcko87/lr2oraja) — a fork that restores LR2-style judges and gauges — and goes further by bundling community patches, new gameplay tools, and quality-of-life improvements that are unlikely to land in upstream beatoraja. If you play BMS and want a more capable, actively maintained client without leaving the beatoraja ecosystem, Endless Dream is for you.
+
+## Fork lineage
+
+Endless Dream sits at the end of a short chain of forks:
+
+- **beatoraja** — the upstream open-source BMS client maintained by exch.
+- **LR2oraja** — a fork by wcko87 that replaces beatoraja's default judges and gauges with LR2-accurate equivalents.
+- **LR2oraja Endless Dream** — this project, forked from LR2oraja, which adds further features while staying compatible with beatoraja 0.8.8 installs.
+
+Because Endless Dream is a drop-in replacement, it reads the same directory layout, databases, and configuration files as a standard beatoraja 0.8.8 installation. You can run both side-by-side without conflicts.
+
+## Key features
+
+- **In-game song downloader** — browse and download BMS charts without leaving music select. Attempting to play an undownloaded song starts the download automatically.
+- **LR2 GBATTLE support** — view LR2IR leaderboards in the context menu and ghost-battle against scores with matched randoms.
+- **Osu file support** — add your osu songs folder as a BMS path and play `.osu` charts alongside your BMS library.
+- **On-the-fly rate mods and freq** — adjust the playback rate from the in-game mod menu without restarting.
+- **Built-in mod menu** — press **`F5`** or **`Insert`** to open the mod menu. Contains the random trainer, lane cover / lift / hidden controls, misc settings, and more.
+- **Live skin configuration** — edit skin settings and resize skin widgets in real time while the game is running.
+- **In-game difficulty table management** — add tables from a built-in list of popular community tables directly from the launcher.
+- **Increased graphics performance** — uses the latest libgdx graphics backends (lwjgl 3) for better frame rates.
+- **Faster table processing** — BMS path subdirectories are scanned in parallel, reducing library load times.
+- **OBS WebSocket integration** — automate scene switching and recording from the Endless Dream launcher.
+- **Discord webhook support** — send screenshots and scores to Discord channels automatically.
+
+<Note>
+  Endless Dream requires **Java 17** with JavaFX. As of version 0.3.0, the bundled JRE shipped with beatoraja 0.8.8 is no longer sufficient. Download the [Liberica JDK Full](https://bell-sw.com/pages/downloads/#jdk-17-lts) (choose **Package: Full JDK**) to get a compatible runtime.
+</Note>
+
+## Compatibility
+
+Endless Dream targets the beatoraja 0.8.8 install layout. It reads and writes the same `config_sys.json`, `songdata.db`, `songinfo.db`, player folders, skin directories, and table cache that beatoraja 0.8.8 uses. Skins, IR plugins, and song databases from a working beatoraja 0.8.8 install transfer without modification.
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="Install Endless Dream" icon="download" href="/getting-started/installation">
+    Step-by-step instructions for setting up Endless Dream from scratch or alongside an existing beatoraja install.
+  </Card>
+  <Card title="Configure after installation" icon="gear" href="/getting-started/first-run">
+    Add your BMS folders, pick a skin, and configure audio on first launch before starting the game.
+  </Card>
+  <Card title="Mod menu and gameplay" icon="sliders" href="/gameplay/mod-menu">
+    Learn how to use the in-game mod menu, rate modifiers, random trainer, and lane cover controls.
+  </Card>
+  <Card title="Key features" icon="star" href="/features/song-downloader">
+    Explore the song downloader, LR2IR leaderboards, skin configuration, Discord webhooks, and more.
+  </Card>
+</CardGroup>

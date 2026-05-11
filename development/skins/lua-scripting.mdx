@@ -1,0 +1,189 @@
+---
+title: "Lua Scripting for Endless Dream Skins: Modules and API"
+description: "Reference for Lua scripting in LR2oraja Endless Dream skins: modules, property types, timers, events, and audio playback from .luaskin files."
+---
+
+Lua scripting gives skin authors programmatic control over skin behavior that goes beyond what static JSON descriptors support. A `.luaskin` file is evaluated by the [LuaJ](https://luaj.sourceforge.net/) VM at load time, and Lua functions embedded in the skin definition are called every frame to drive property values, timers, and events. This allows skins to express conditional logic, stateful animations, and interactions with game state in ways that numeric IDs alone cannot cover.
+
+## How Lua skins work
+
+`LuaSkinLoader` extends `JSONSkinLoader`. When the engine loads a `.luaskin` file, it:
+
+1. Executes the file through `SkinLuaAccessor` to obtain the skin definition as a Lua table.
+2. Deserializes that table into the same `JsonSkin.Skin` object structure used by JSON skins.
+3. Exports game-state accessor modules so that Lua property functions can read live values during gameplay.
+
+Property fields that accept a numeric ID in JSON (such as `timer`, `draw`, or `rate`) can alternatively be set to a Lua function or a Lua string expression in a `.luaskin` file. The engine wraps these in typed property objects (`BooleanProperty`, `IntegerProperty`, `FloatProperty`, `StringProperty`, `TimerProperty`) that are called every frame.
+
+## Modules available to skin scripts
+
+Three Lua modules are exported to `.luaskin` scripts at runtime. Import them with `require`:
+
+```lua
+local main_state = require("main_state")
+local timer_util = require("timer_util")
+local event_util = require("event_util")
+```
+
+During header-only loading (before the skin is fully initialized), these modules are present as empty tables so that `require` does not error. They are populated with their full implementations once the skin is loaded with a live game state.
+
+### `main_state` — game state access
+
+`main_state` exposes functions for reading and writing game state values. Prefer these over the generic ID-based functions for performance — the ID-based functions create a new property object on every call.
+
+| Function | Return type | Description |
+|---|---|---|
+| `main_state.option(id)` | `boolean` | Returns the value of `OPTION_*` property by numeric ID |
+| `main_state.number(id)` | `integer` | Returns the value of `NUMBER_*` property by numeric ID |
+| `main_state.float_number(id)` | `float` | Returns the value of a `SLIDER_*` or `BARGRAPH_*` property by numeric ID |
+| `main_state.text(id)` | `string` | Returns the value of `STRING_*` property by numeric ID |
+| `main_state.offset(id)` | `table` | Returns an offset table with fields `x`, `y`, `w`, `h`, `r`, `a` |
+| `main_state.timer(id)` | `integer` | Returns the start time (microseconds) of `TIMER_*` or custom timer, or `timer_off_value` if off |
+| `main_state.timer_off_value` | `integer` | Sentinel value (`Long.MIN_VALUE`) indicating a timer is off |
+| `main_state.time()` | `integer` | Returns the current time in microseconds |
+| `main_state.set_timer(id, value)` | `boolean` | Sets a writable timer. Throws if the timer is not writable by skins |
+| `main_state.event_exec(id[, arg1[, arg2]])` | `boolean` | Executes a `BUTTON_*` or custom event. Throws if the event is not safe to run from skins |
+| `main_state.event_index(id)` | `integer` | Returns the current index of a `BUTTON_*` event |
+| `main_state.rate()` | `float` | Current 1P score rate (0–1) |
+| `main_state.exscore()` | `integer` | Current 1P EX score |
+| `main_state.rate_best()` | `float` | Best score rate for the current chart |
+| `main_state.exscore_best()` | `integer` | Best EX score for the current chart |
+| `main_state.rate_rival()` | `float` | Rival score rate |
+| `main_state.exscore_rival()` | `integer` | Rival EX score |
+| `main_state.gauge()` | `float` | Current groove gauge value |
+| `main_state.gauge_type()` | `integer` | Gauge type identifier |
+| `main_state.volume_sys()` | `float` | System (master) volume (0–1) |
+| `main_state.set_volume_sys(v)` | `boolean` | Sets system volume |
+| `main_state.volume_key()` | `float` | Key sound volume |
+| `main_state.set_volume_key(v)` | `boolean` | Sets key sound volume |
+| `main_state.volume_bg()` | `float` | BGM volume |
+| `main_state.set_volume_bg(v)` | `boolean` | Sets BGM volume |
+| `main_state.judge(id)` | `integer` | Judge count for the given judge type (both players summed) |
+| `main_state.audio_play(path, volume)` | `boolean` | Plays an audio file once at the given volume (0–2, 0 = default) |
+| `main_state.audio_loop(path, volume)` | `boolean` | Plays an audio file in a loop |
+| `main_state.audio_stop(path)` | `boolean` | Stops audio playback for the given file |
+
+### `timer_util` — timer helpers
+
+`timer_util` provides utilities for working with timer values (not timer IDs).
+
+| Function | Return type | Description |
+|---|---|---|
+| `timer_util.now_timer(timerValue)` | `integer` | Elapsed time since the timer started (microseconds), or 0 if off |
+| `timer_util.is_timer_on(timerValue)` | `boolean` | `true` if the timer value is not `timer_off_value` |
+| `timer_util.is_timer_off(timerValue)` | `boolean` | `true` if the timer value is `timer_off_value` |
+| `timer_util.timer_function(id)` | `function` | Returns a zero-arg function that reads the given timer ID each call |
+| `timer_util.timer_observe_boolean(func)` | `function` | Returns a timer function that turns ON when `func()` becomes true, OFF when it becomes false |
+| `timer_util.new_passive_timer()` | `table` | Returns a table with `timer`, `turn_on`, `turn_on_reset`, and `turn_off` functions for a manually managed timer |
+
+### `event_util` — event observers
+
+`event_util` provides combinators for reacting to state transitions.
+
+| Function | Return type | Description |
+|---|---|---|
+| `event_util.event_observe_turn_true(func, action)` | `function` | Calls `action()` at the moment `func()` transitions from false to true |
+| `event_util.event_observe_timer(timerFunc, action)` | `function` | Calls `action()` when the timer value changes (and is not off) |
+| `event_util.event_observe_timer_on(timerFunc, action)` | `function` | Calls `action()` when the timer transitions from OFF to ON |
+| `event_util.event_observe_timer_off(timerFunc, action)` | `function` | Calls `action()` when the timer transitions from ON to OFF |
+| `event_util.event_min_interval(ms, action)` | `function` | Wraps `action` so it fires at most once every `ms` milliseconds |
+
+## Property types
+
+Any field in the skin definition that accepts a property can be specified in three ways in Lua:
+
+```lua
+-- 1. A numeric ID (same as JSON)
+draw = 33  -- OPTION_AUTOPLAYOFF
+
+-- 2. A Lua string expression (evaluated to a function)
+draw = "main_state.option(33)"
+
+-- 3. A Lua function (called every frame)
+draw = function()
+  return main_state.rate() > 0.8
+end
+```
+
+The available property types are:
+
+| Type | Java interface | Used for |
+|---|---|---|
+| `BooleanProperty` | `draw`, visibility conditions | Show/hide elements |
+| `IntegerProperty` | `number`, image index | Integer numeric values |
+| `FloatProperty` | `rate`, slider values | Floating-point values |
+| `StringProperty` | `text` | String display values |
+| `TimerProperty` | `timer` | Animation timing |
+| `FloatWriter` | slider write-back | Write a float back to game state |
+| `Event` | custom events | Execute logic on trigger |
+
+## Skin configuration access
+
+When a `.luaskin` file is loaded, skin configuration (options, offsets, and file paths chosen in the launcher) is exposed as the global `skin_config`:
+
+```lua
+-- Read a custom option value
+local my_option = skin_config.option["MyOptionName"]
+
+-- Resolve a file path from a custom file selector
+local texture_path = skin_config.get_path("textures/bg.*")
+
+-- Read an offset configured in the launcher
+local offset = skin_config.offset["JudgeLine"]
+-- offset.x, offset.y, offset.w, offset.h, offset.r, offset.a
+```
+
+During header-only loading (when the skin list is shown in the launcher), `skin_config` is `nil`. Guard any code that accesses it:
+
+```lua
+if skin_config ~= nil then
+  -- full skin load
+end
+```
+
+## Example: custom timer driven by score rate
+
+```lua
+local main_state = require("main_state")
+local timer_util = require("timer_util")
+
+-- Create a timer that turns on when rate exceeds 80%
+local high_rate_timer = timer_util.timer_observe_boolean(function()
+  return main_state.rate() > 0.8
+end)
+
+return {
+  -- ...skin objects...
+  objects = {
+    {
+      -- Show a special effect element only when rate > 80%
+      image = "effects/golden.png",
+      timer = high_rate_timer,
+      draw  = function() return main_state.rate() > 0.8 end,
+      -- ...destination keyframes...
+    }
+  }
+}
+```
+
+## Example: playing a sound on timer transition
+
+```lua
+local main_state = require("main_state")
+local event_util  = require("event_util")
+local timer_util  = require("timer_util")
+
+local play_timer_fn = timer_util.timer_function(41) -- TIMER_PLAY
+
+local on_play_start = event_util.event_observe_timer_on(play_timer_fn, function()
+  main_state.audio_play("sounds/start.wav", 1.0)
+end)
+
+return {
+  -- register as a custom event so it fires every frame
+  custom_events = {
+    { id = 1000, action = on_play_start }
+  },
+  -- ...rest of skin definition...
+}
+```

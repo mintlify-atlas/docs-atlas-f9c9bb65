@@ -1,0 +1,94 @@
+---
+title: "Known Issues in Endless Dream 0.4.0 and Their Workarounds"
+description: "Known issues in LR2oraja Endless Dream 0.4.0 with workarounds, covering song database locks, skin changes, Linux font case, and Skin Widget Manager behavior."
+---
+
+This page lists confirmed issues in the current release of LR2oraja Endless Dream and, where available, workarounds you can apply without waiting for a fix.
+
+<AccordionGroup>
+
+  <Accordion title="Song database lock when downloading many charts simultaneously">
+    **Affected versions:** 0.4.0
+
+    **Platform:** All
+
+    When you download a large number of charts at the same time using the in-game song downloader, the SQLite song database can enter a locked state. When this happens, newly downloaded songs do not appear in the music select screen even after the downloads complete.
+
+    **Symptoms:**
+    - Downloaded songs are present on disk but absent from the song list.
+    - The database may emit lock errors in `endlessdream.log`.
+
+    **Workaround:**
+    1. Close the game.
+    2. Relaunch the game.
+    3. Open the launcher or use the in-game folder reload function to re-scan the download directory.
+
+    The newly downloaded songs will appear after the scan completes.
+  </Accordion>
+
+  <Accordion title="Remnant skin elements after changing the music select skin">
+    **Affected versions:** 0.4.0
+
+    **Platform:** All
+
+    When you change the music select skin using the live skin menu in the mod menu, some song wheel elements from the previous skin may continue to render on screen until you fully restart the game. Similarly, after changing the play skin, measure bars may display incorrectly until you reload.
+
+    **Workaround:** Restart the game after changing skins if you see leftover visual elements. Live skin switching is intended for configuration tweaks, not full skin replacement.
+  </Accordion>
+
+  <Accordion title="[Linux] Skin fonts load partially due to filename case">
+    **Affected versions:** 0.4.0
+
+    **Platform:** Linux only
+
+    Linux filesystems are case-sensitive. Some skins reference font files using a different letter case than the actual filename on disk (for example, the skin references `font/Score.png` but the file is named `font/score.png`). On Linux, this causes the font to load only partially or not at all, resulting in missing characters, blank score counters, or invisible text elements.
+
+    <Note>
+    This is a skin authoring issue rather than an Endless Dream bug, but it manifests only on Linux because Windows and macOS use case-insensitive filesystems by default.
+    </Note>
+
+    **Workaround:** Identify the mismatched filename by checking `endlessdream.log` for file-not-found errors during skin loading, then rename the offending file on disk so its name exactly matches the case used in the skin descriptor (`.csv` or `.json`).
+
+    For example:
+
+    ```bash
+    # Rename a lowercase filename to match the skin descriptor
+    mv skin/mySkin/font/score.png skin/mySkin/font/Score.png
+    ```
+  </Accordion>
+
+  <Accordion title="[Linux] Skin settings fail to transfer from a Windows configuration">
+    **Affected versions:** 0.4.0
+
+    **Platform:** Linux only
+
+    If you copy a `config.json` or `config_player.json` that was created on Windows to a Linux machine, the skin file paths stored in those files use Windows-style backslash separators (`\`). Linux does not treat `\` as a path separator, so the game cannot locate the configured skin files and falls back to the default skin.
+
+    **Workaround:** Open `config.json` and `config_player.json` (found in your player folder) in a text editor and replace all backslashes in skin path values with forward slashes.
+
+    Example — before:
+
+    ```json
+    "path": "skin\\myPlaySkin\\play.json"
+    ```
+
+    After:
+
+    ```json
+    "path": "skin/myPlaySkin/play.json"
+    ```
+
+    You only need to change values inside the skin configuration sections. Save both files and relaunch the game.
+  </Accordion>
+
+  <Accordion title="Skin Widget Manager behaves abnormally with sliders and scrollbars">
+    **Affected versions:** 0.4.0
+
+    **Platform:** All
+
+    The **Skin Widget Manager** (accessible from the mod menu) does not handle skin slider and scrollbar elements correctly. Attempting to resize or reposition these elements may produce unexpected results or no effect.
+
+    **Workaround:** Avoid using the Skin Widget Manager to edit slider or scrollbar elements. Configure those elements by editing the skin descriptor file directly, or use the numeric offset fields in the live Skin Configuration window.
+  </Accordion>
+
+</AccordionGroup>
